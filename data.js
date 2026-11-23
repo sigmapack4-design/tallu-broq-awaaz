@@ -1,48 +1,33 @@
 /* Tallu Broq Ki Awaaz — site content.
    New posts: copy any block in POSTS, change the text, keep the same cat name.
    cat: news | masayil | kamyabi | sakafat | elaan
-   status (masayil only): report | progress | done                     */
+   status (masayil only): report | progress | done
+   page: link to the full blog page (posts/...)                          */
 
 const POSTS = [
   {
-    id: 1, cat: "news", img: "assets/hero.webp",
-    date: "23 Nov 2026",
-    titleEn: "Tallu Broq Ki Awaaz website launched",
-    titleUr: "تلو بروق کی آواز ویب سائٹ کا آغاز",
-    bodyEn: "Our village now has its own voice on the internet. News, problems, success stories and our culture — everything from Tallu Broq will be shared here with the whole world.",
-    bodyUr: "اب ہمارے گاؤں کی اپنی آواز انٹرنیٹ پر موجود ہے۔ تلو بروق کی خبریں، مسائل، کامیابیاں اور ثقافت — سب کچھ یہاں سے پوری دنیا تک پہنچے گا۔"
+    id: 1, cat: "news", img: "assets/road.webp",
+    date: "23 Nov 2026", page: "posts/tallu-broq-milyar-road.html",
+    titleEn: "Tallu Broq–Milyar Link Road Restored — A Shining Example of Public Unity",
+    titleUr: "تلو بروق سے ملیار تک رابطہ سڑک کی بحالی — عوامی اتحاد کی بہترین مثال",
+    bodyEn: "The people of the area, on a self-help basis, have reconnected the Tallu Broq–Milyar link road and restored land contact between the two villages. Now the appeal to the authorities: a bridge grant for permanent, safe travel.",
+    bodyUr: "اہلِ علاقہ نے اپنی مدد آپ کے تحت تلو بروق تا ملیار لنک روڈ کو منسلک کرکے دونوں گاؤں کے درمیان زمینی رابطہ بحال کر دیا ہے۔ اب حکامِ بالا سے اپیل ہے کہ اس مقام پر پل کی تعمیر کے لیے خصوصی گرانٹ فراہم کی جائے۔"
   },
   {
-    id: 2, cat: "elaan", img: "",
-    date: "23 Nov 2026",
-    titleEn: "Send your news, problem or success story",
-    titleUr: "اپنی خبر، مسئلہ یا کامیابی بھیجیں",
-    bodyEn: "Anyone from the village can send a news item, a problem or a success story through the 'Masla Bhejein' form. After a quick check it will be published here with your name.",
-    bodyUr: "گاؤں کا کوئی بھی فرد 'مسئلہ بھیجیں' والے فارم سے خبر، مسئلہ یا کامیابی بھیج سکتا ہے۔ جانچ کے بعد وہ آپ کے نام کے ساتھ یہاں شائع ہو جائے گی۔"
+    id: 2, cat: "sakafat", img: "assets/gathering.webp",
+    date: "23 Nov 2026", page: "posts/parha-likha-naujawan-gaon.html",
+    titleEn: "When the Educated Serve Their Village, Its Thinking Changes",
+    titleUr: "جب پڑھا لکھا شخص اپنے گاؤں کے لیے کام کرتا ہے",
+    bodyEn: "A village does not only need roads and buildings — it needs good thinking, good education and good guides. Real success is not leaving for the city; it is bringing your education back to your village.",
+    bodyUr: "گاؤں کو صرف سڑکوں اور عمارتوں کی ضرورت نہیں، اسے اچھی سوچ، اچھی تعلیم اور اچھے رہنما کی ضرورت ہے۔ اصل کامیابی شہر جا کر کامیاب ہونا نہیں، اپنی تعلیم واپس اپنے گاؤں لے کر آنا ہے۔"
   },
   {
-    id: 3, cat: "masayil", img: "", status: "progress",
-    date: "23 Nov 2026",
-    titleEn: "How the Masayil board works",
-    titleUr: "مسائل بورڈ کیسے کام کرتا ہے",
-    bodyEn: "Every problem posted here gets a public status: Reported, In Progress, or Resolved. When a problem is sent, it appears here — and its status keeps updating until it is solved, so the whole village can see the progress.",
-    bodyUr: "یہاں شائع ہونے والے ہر مسئلے کی حالت سب کے سامنے ہوتی ہے: رپورٹ ہوا، کام جاری، یا حل ہو گیا۔ مسئلہ بھیجتے ہی یہاں آ جائے گا اور حل ہونے تک اس کی حالت بدلتی رہے گی، تاکہ پورا گاؤں پیش رفت دیکھ سکے۔"
-  },
-  {
-    id: 4, cat: "kamyabi", img: "assets/craft.webp",
-    date: "23 Nov 2026",
-    titleEn: "Our students' success will shine here",
-    titleUr: "ہمارے طلبہ کی کامیابی یہاں چمکے گی",
-    bodyEn: "Exam results, admissions, jobs and every achievement of our youth will be celebrated on this page. Send a success story with a photo and it will be published with pride.",
-    bodyUr: "امتحانی نتائج، داخلے، نوکریاں اور نوجوانوں کی ہر کامیابی اس صفحے پر منائی جائے گی۔ کامیابی کی خبر تصویر کے ساتھ بھیجیں، فخر کے ساتھ شائع ہو گی۔"
-  },
-  {
-    id: 5, cat: "sakafat", img: "assets/polo.webp",
-    date: "23 Nov 2026",
-    titleEn: "Polo — the pride of our mountains",
-    titleUr: "پولو — ہمارے پہاڑوں کا فخر",
-    bodyEn: "In Gilgit-Baltistan, polo is not just a game, it is a centuries-old tradition of our valleys. Festivals, music, dress and handicrafts — our culture section will carry all of it to the world.",
-    bodyUr: "گلگت بلتستان میں پولو صرف کھیل نہیں، ہماری وادیوں کی صدیوں پرانی روایت ہے۔ میلے، موسیقی، لباس اور دستکاری — ثقافت کا یہ خزانہ اس حصے سے دنیا تک پہنچے گا۔"
+    id: 3, cat: "news", img: "assets/skardu-family.webp",
+    date: "23 Nov 2026", page: "posts/saniha-skardu-insaaf.html",
+    titleEn: "The Skardu Tragedy — One Month On, a Family Still Waits for Justice",
+    titleUr: "سانحہ سکردو — ایک ماہ گزر گیا، انصاف کب ملے گا؟",
+    bodyEn: "One month has passed since Shaheed Muhammad Aslam, his wife Syeda Hania and their two little children were martyred — yet only one main accused has been arrested while the rest remain beyond the law. The public does not want mere assurances; it wants action and justice.",
+    bodyUr: "شہید محمد اسلم، ان کی اہلیہ سیدہ ہانیہ اور ان کے دو ننھے معصوم بچوں کی شہادت کو ایک ماہ گزر چکا ہے، مگر تاحال صرف ایک ہی مرکزی ملزم گرفتار ہوا ہے جبکہ باقی ملزمان قانون کی گرفت سے باہر ہیں۔ عوام کو محض یقین دہانیاں نہیں بلکہ عملی اقدامات اور انصاف چاہیے۔"
   }
 ];
 
@@ -62,9 +47,9 @@ const DIRECTORY = [
 ];
 
 const GALLERY = [
-  { img: "assets/hero.webp", capEn: "Our valley — Tallu Broq", capUr: "ہماری وادی — تلو بروق" },
-  { img: "assets/polo.webp", capEn: "Polo Festival", capUr: "پولو میلہ" },
-  { img: "assets/craft.webp", capEn: "Handicrafts of our women", capUr: "ہماری خواتین کی دستکاری" }
+  { img: "assets/road.webp", capEn: "Tallu Broq–Milyar link road — the people at work", capUr: "تلو بروق تا ملیار لنک روڈ — عوام اپنی مدد آپ" },
+  { img: "assets/gathering.webp", capEn: "Village gathering — elders and youth together", capUr: "گاؤں کی بیٹھک — بزرگ اور نوجوان ایک ساتھ" },
+  { img: "assets/skardu-family.webp", capEn: "Shaheed Muhammad Aslam, Syeda Hania and their children", capUr: "شہید محمد اسلم، سیدہ ہانیہ اور ان کے بچے" }
 ];
 
 const RABTA = [

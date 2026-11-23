@@ -47,6 +47,7 @@ function postCard(p) {
       <span class="chip ${meta.chip}">${esc(meta.en)}</span>
       <h3>${esc(p.titleEn)}<span class="ur">${esc(p.titleUr)}</span></h3>
       <p>${esc(LANG === "ur" ? (p.bodyUr || p.bodyEn) : p.bodyEn)}</p>
+      ${p.page ? `<a class="readmore" href="${esc(p.page)}">Read Full Blog <span class="ur" style="font-size:.82rem">— مکمل بلاگ پڑھیں</span> →</a>` : ""}
       <div class="pmeta"><span>${esc(p.date)}</span>${status}</div>
     </div>
   </article>`;
