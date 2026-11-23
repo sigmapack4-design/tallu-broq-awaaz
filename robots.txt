@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sigmapack4-design.github.io/tallu-broq-awaaz/sitemap.xml
