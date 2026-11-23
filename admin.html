@@ -166,6 +166,16 @@
         <div style="margin-top:14px"><button class="btn-gold" id="changePwBtn" type="button">Password Badlein →</button></div>
         <div class="msg" id="pwMsg"></div>
       </div>
+      <div class="card">
+        <h2>👤 Apna Username Badlein</h2>
+        <p style="font-size:.88rem;color:var(--muted)">Maujooda username: <b id="curUserName">—</b></p>
+        <label for="newUserName">Naya Username</label>
+        <input type="text" id="newUserName" placeholder="e.g. yawar" maxlength="20">
+        <label for="renPw">Password (tasdeeq ke liye)</label>
+        <input type="password" id="renPw" placeholder="Apna password likhein">
+        <div style="margin-top:14px"><button class="btn-gold" id="renameBtn" type="button">Username Badlein →</button></div>
+        <div class="msg" id="renameMsg"></div>
+      </div>
     </div>
 
     <!-- SETTINGS -->
@@ -460,6 +470,7 @@ async function loadAdmins() {
   try {
     const j = await api({ action: "admins" });
     if (!j.ok) return;
+    if ($("curUserName")) $("curUserName").textContent = j.me;
     $("adminsList").innerHTML = j.admins.map(a => `
       <div class="arow"><b>${esc(a.user)}</b>
         ${a.user === j.me ? '<span class="you">Aap</span>' : ""}
@@ -480,6 +491,21 @@ $("addAdminBtn").addEventListener("click", async () => {
     const j = await api({ action: "addAdmin", user: $("nUser").value.trim(), password: $("nPass").value });
     if (j.ok) { msg(m, "ok", "✅ Naya admin ban gaya — ab wo apne username/password se login kar sakta hai"); $("nUser").value = ""; $("nPass").value = ""; loadAdmins(); }
     else msg(m, "bad", "❌ " + (j.error || "Admin nahi bana"));
+  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+});
+$("renameBtn").addEventListener("click", async () => {
+  const m = $("renameMsg");
+  try {
+    const j = await api({ action: "renameMe", newUser: $("newUserName").value.trim(), current: $("renPw").value });
+    if (j.ok) {
+      token = j.token; meUser = j.user;
+      sessionStorage.setItem("tbka-admin", token);
+      sessionStorage.setItem("tbka-user", meUser);
+      $("whoLine").textContent = "Login: " + meUser + " — posting, edit, delete, admins, logo, social links aur password sab yahan se control karein.";
+      msg(m, "ok", "✅ Username badal gaya — agli dafa '" + meUser + "' se login hoga");
+      $("newUserName").value = ""; $("renPw").value = "";
+      loadAdmins();
+    } else msg(m, "bad", "❌ " + (j.error || "Username nahi badla"));
   } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
 });
 $("changePwBtn").addEventListener("click", async () => {
