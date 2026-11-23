@@ -392,3 +392,13 @@ button{font-family:inherit;cursor:pointer}
 }
 .share-copy{background:#44546b;border:none;cursor:pointer;font-family:inherit}
 @media (max-width:560px){ .blog-h1{font-size:1.45rem} .blog-h1ur{font-size:1.22rem} }
+
+/* ----- Social links (set from admin panel) ----- */
+.social-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.social-row:empty{display:none}
+.social-pill{
+  display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:999px;
+  border:1.5px solid rgba(255,255,255,.35);color:#fff;font-weight:600;font-size:.85rem;
+  transition:.2s;background:rgba(255,255,255,.08);
+}
+.social-pill:hover{border-color:var(--gold);color:var(--gold-2);transform:translateY(-2px)}

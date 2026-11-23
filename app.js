@@ -478,6 +478,30 @@ async function loadDynamic() {
   } catch (e) { /* site works with the static posts alone */ }
 }
 
+/* ----- Site settings from admin panel: custom logo + social links ----- */
+async function loadSettings() {
+  try {
+    const r = await fetch(API_BASE + "/api/settings");
+    const j = await r.json();
+    if (!j.ok) return;
+    if (j.logo) {
+      const src = `${API_BASE}/api/img?id=logo&v=${Math.floor(Date.now() / 3600000)}`;
+      document.querySelectorAll("[data-sitelogo]").forEach(img => { img.src = src; });
+      const fav = document.querySelector('link[rel="icon"]');
+      if (fav) fav.href = src;
+    }
+    const labels = { facebook: "Facebook", youtube: "YouTube", tiktok: "TikTok", instagram: "Instagram" };
+    const row = document.getElementById("socialRow");
+    if (row && j.socials) {
+      row.innerHTML = Object.keys(labels)
+        .filter(k => j.socials[k])
+        .map(k => `<a class="social-pill" href="${esc(j.socials[k])}" target="_blank" rel="noopener">${labels[k]}</a>`)
+        .join("");
+    }
+  } catch (e) { /* defaults stay */ }
+}
+
 window.addEventListener("hashchange", render);
 render();
 loadDynamic();
+loadSettings();
