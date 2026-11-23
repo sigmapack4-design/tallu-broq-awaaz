@@ -428,7 +428,11 @@ document.querySelectorAll("[data-drop-btn]").forEach(btn => {
   });
 });
 document.addEventListener("click", e => {
-  if (!e.target.closest("[data-drop]")) closeAllMenus();
+  /* Clicks on the burger or inside the mobile panel must NOT be treated as
+     "outside" clicks — otherwise this handler instantly closes the panel
+     that the burger click just opened (the "menu click does nothing" bug). */
+  if (e.target.closest("[data-drop]") || e.target.closest("#burger") || e.target.closest("#mobilePanel")) return;
+  closeAllMenus();
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") { closeAllMenus(); closeGuide(); }
