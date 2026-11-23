@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
 <body>
@@ -129,7 +129,39 @@
   <div class="footer-bottom">© 2026 Tallu Broq Ki Awaaz — Gilgit-Baltistan, Pakistan</div>
 </footer>
 
-<script src="data.js?v=2"></script>
-<script src="app.js?v=2"></script>
+<!-- Guidelines popup (shown before posting) -->
+<div class="modal-back" id="guideModal" role="dialog" aria-modal="true" aria-label="Posting guidelines">
+  <div class="modal-card">
+    <h3>📋 Posting ke Usool <span class="ur">پوسٹنگ کے اصول</span></h3>
+    <div class="guide-cols">
+      <div>
+        <p class="guide-h good">✅ Ye post ho sakti hai:</p>
+        <ul>
+          <li>Gaon ki khabrein <span class="ur">گاؤں کی خبریں</span></li>
+          <li>Masayil — pani, bijli, sarak, school, sehat <span class="ur">مسائل</span></li>
+          <li>Kamyabi — students, naujawan <span class="ur">کامیابی</span></li>
+          <li>Sakafat aur elanaat <span class="ur">ثقافت و اعلانات</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="guide-h bad">🚫 Ye bilkul nahi:</p>
+        <ul>
+          <li>Kharid-o-farokht, dukaan ya cheezon ki advertisement</li>
+          <li>Gandi, badtameez ya ghair-akhlaqi baat ya photo</li>
+          <li>Kisi shakhs par ilzaam ya larai jhagra</li>
+          <li>Jhooti khabar ya spam</li>
+        </ul>
+      </div>
+    </div>
+    <p class="guide-note">🤖 <strong>System kaisa kaam karta hai:</strong> Aap title, tafseel aur photo bhejte hain → <strong>AI pehle check karta hai</strong> → saaf post ko AI khud behtar bana kar <strong>English + Urdu blog</strong> ki shakal mein SEO ke saath publish kar deta hai. Jo post usool ke khilaf ho, wo <strong>wahin decline</strong> ho jati hai — site par nahi lagti.</p>
+    <div class="modal-btns">
+      <button class="btn-gold" id="guideGo" type="button">Samajh Gaya — Post Karein →</button>
+      <button class="btn-plain" id="guideClose" type="button">Band Karein</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js?v=3"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

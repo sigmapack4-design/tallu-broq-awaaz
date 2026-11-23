@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — Tallu Broq Ki Awaaz</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=5">
+<style>
+  .admin-wrap{max-width:860px;margin:0 auto;padding:22px 16px 60px}
+  .admin-head{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .admin-head img{width:52px;height:52px;border-radius:50%}
+  .admin-head h1{font-size:1.3rem;color:var(--green)}
+  .admin-head p{color:var(--muted);font-size:.85rem}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:20px;box-shadow:var(--shadow-soft)}
+  .card h2{color:var(--green);font-size:1.08rem;margin-bottom:12px}
+  .card label{display:block;font-weight:600;font-size:.9rem;margin:12px 0 5px}
+  .card input[type=text],.card input[type=password],.card select,.card textarea{
+    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.95rem;background:#fff;
+  }
+  .card input:focus,.card select:focus,.card textarea:focus{outline:none;border-color:var(--green)}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>*{flex:1;min-width:150px}
+  .check{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;margin-top:14px}
+  .check input{width:18px;height:18px}
+  .msg{margin-top:12px;font-size:.92rem;border-radius:12px;padding:11px 14px;display:none}
+  .msg.ok{display:block;background:#e5f6ec;border:1px solid #8fd3a8;color:#14532d}
+  .msg.bad{display:block;background:#fdecec;border:1px solid #f0a3a3;color:#7a1d1d}
+  .msg.wait{display:block;background:#fff7e0;border:1px solid #ecd27a;color:#6b5410}
+  .apost{border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:10px;background:#fff}
+  .apost h3{font-size:.98rem;color:var(--ink)}
+  .apost .meta{font-size:.78rem;color:var(--muted);margin:3px 0 8px}
+  .apost .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .mini-btn{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:inherit}
+  .mini-btn:hover{border-color:var(--green);color:var(--green)}
+  .mini-btn.danger:hover{border-color:#b3261e;color:#b3261e}
+  .mini-btn.on{background:var(--green);color:#fff;border-color:var(--green)}
+  .log-item{font-size:.86rem;padding:9px 4px;border-bottom:1px dashed var(--line)}
+  .log-item .tag{font-weight:800;font-size:.72rem;padding:2px 9px;border-radius:999px;color:#fff}
+  .tag.pub{background:#177245}.tag.dec{background:#b3261e}
+  .logout{margin-left:auto}
+  .photo-prev{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="admin-wrap">
+  <div class="admin-head">
+    <img src="assets/logo.png" alt="">
+    <div>
+      <h1>Tallu Broq Ki Awaaz — Admin Panel</h1>
+      <p>Yahan se posting karein, posts delete karein aur submissions ka record dekhein.</p>
+    </div>
+    <button class="mini-btn logout" id="logoutBtn" hidden>Logout</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="card" id="loginCard">
+    <h2>🔐 Login</h2>
+    <label for="pw">Admin Password</label>
+    <input type="password" id="pw" placeholder="Password likhein" autocomplete="current-password">
+    <div style="margin-top:16px"><button class="btn-gold" id="loginBtn" type="button">Login →</button></div>
+    <div class="msg" id="loginMsg"></div>
+  </div>
+
+  <!-- PANEL -->
+  <div id="panel" hidden>
+    <div class="card">
+      <h2>✍️ Nayi Post Lagayein</h2>
+      <label for="aTitle">Unwaan / Title</label>
+      <input type="text" id="aTitle" maxlength="160" placeholder="Post ka unwaan">
+      <label for="aBody">Tafseel / Details</label>
+      <textarea id="aBody" rows="5" placeholder="Poori tafseel likhein..."></textarea>
+      <div class="row">
+        <div>
+          <label for="aCat">Qisam / Category</label>
+          <select id="aCat">
+            <option value="news">Khabar (News)</option>
+            <option value="masayil">Masla (Problem)</option>
+            <option value="kamyabi">Kamyabi (Success)</option>
+            <option value="elaan">Elaan (Announcement)</option>
+            <option value="sakafat">Sakafat (Culture)</option>
+          </select>
+        </div>
+        <div>
+          <label for="aStatus">Masla Status (sirf Masayil ke liye)</label>
+          <select id="aStatus">
+            <option value="report">Reported</option>
+            <option value="progress">In Progress</option>
+            <option value="done">Resolved</option>
+          </select>
+        </div>
+      </div>
+      <label for="aPhoto">Photo (ikhtiyari)</label>
+      <input type="file" id="aPhoto" accept="image/*">
+      <img id="aPrev" class="photo-prev" alt="" hidden>
+      <label class="check"><input type="checkbox" id="aAi" checked> AI se post behtar banayein (English + Urdu blog + SEO)</label>
+      <div style="margin-top:16px"><button class="btn-gold" id="publishBtn" type="button">Publish Karein →</button></div>
+      <div class="msg" id="pubMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2>🗂 Website Par Lagi Posts (AI System)</h2>
+      <div id="postsList"><p style="color:var(--muted)">Load ho raha hai...</p></div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:10px">Note: Website ki 3 asal blog posts (Road, Parha Likha, Saniha Skardu) file-based hain — wo yahan nahi aati, un mein tabdeeli ke liye Muse ko kahein.</p>
+    </div>
+
+    <div class="card">
+      <h2>📥 Submissions Record (Public Form Se)</h2>
+      <div id="logList"><p style="color:var(--muted)">Load ho raha hai...</p></div>
+    </div>
+  </div>
+
+  <p style="text-align:center"><a href="index.html" style="color:var(--green);font-weight:700">← Website par wapas</a></p>
+</div>
+
+<script>
+"use strict";
+const API_BASE = "https://tallu-broq-api.vercel.app";
+const $ = id => document.getElementById(id);
+const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let token = sessionStorage.getItem("tbka-admin") || "";
+let photoData = null;
+
+function msg(el, kind, text) { el.className = "msg " + kind; el.textContent = text; }
+
+async function api(payload) {
+  const r = await fetch(API_BASE + "/api/admin", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Admin-Token": token },
+    body: JSON.stringify(payload)
+  });
+  return r.json();
+}
+
+function compressImage(file) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const max = 1100;
+      const s = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.max(1, Math.round(img.width * s));
+      c.height = Math.max(1, Math.round(img.height * s));
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/jpeg", 0.78));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+$("aPhoto").addEventListener("change", async () => {
+  const f = $("aPhoto").files && $("aPhoto").files[0];
+  if (!f) { photoData = null; $("aPrev").hidden = true; return; }
+  try { photoData = await compressImage(f); $("aPrev").src = photoData; $("aPrev").hidden = false; }
+  catch (e) { photoData = null; }
+});
+
+async function doLogin() {
+  const m = $("loginMsg");
+  msg(m, "wait", "Check ho raha hai...");
+  try {
+    const j = await api({ action: "login", password: $("pw").value });
+    if (j.ok) {
+      token = j.token;
+      sessionStorage.setItem("tbka-admin", token);
+      showPanel();
+    } else msg(m, "bad", "❌ " + (j.error || "Password ghalat hai"));
+  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+}
+$("loginBtn").addEventListener("click", doLogin);
+$("pw").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+$("logoutBtn").addEventListener("click", () => {
+  token = ""; sessionStorage.removeItem("tbka-admin");
+  $("panel").hidden = true; $("loginCard").hidden = false; $("logoutBtn").hidden = true;
+});
+
+function showPanel() {
+  $("loginCard").hidden = true;
+  $("panel").hidden = false;
+  $("logoutBtn").hidden = false;
+  loadList();
+}
+
+async function loadList() {
+  try {
+    const j = await api({ action: "list" });
+    if (!j.ok) { $("postsList").innerHTML = "<p>List load nahi hui — dobara login karein.</p>"; return; }
+    const posts = j.posts || [];
+    $("postsList").innerHTML = posts.length ? posts.map(p => `
+      <div class="apost">
+        <h3>${esc(p.titleEn)}</h3>
+        <div class="meta">${esc(p.cat)} · ${esc(p.date)} · ${esc(p.source || "")} · by ${esc(p.name || "")}</div>
+        <div class="acts">
+          <a class="mini-btn" href="index.html#/post/${esc(p.id)}" target="_blank">Dekhein</a>
+          ${p.cat === "masayil" ? ["report", "progress", "done"].map(s =>
+            `<button class="mini-btn ${p.status === s ? "on" : ""}" data-status="${s}" data-id="${esc(p.id)}">${s}</button>`).join("") : ""}
+          <button class="mini-btn danger" data-del="${esc(p.id)}">🗑 Delete</button>
+        </div>
+      </div>`).join("") : "<p style='color:var(--muted)'>Abhi AI system se koi post nahi lagi.</p>";
+    document.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", async () => {
+      if (!confirm("Ye post delete kar dein?")) return;
+      await api({ action: "delete", id: b.getAttribute("data-del") });
+      loadList();
+    }));
+    document.querySelectorAll("[data-status]").forEach(b => b.addEventListener("click", async () => {
+      await api({ action: "setStatus", id: b.getAttribute("data-id"), status: b.getAttribute("data-status") });
+      loadList();
+    }));
+    const log = j.log || [];
+    $("logList").innerHTML = log.length ? log.map(l => `
+      <div class="log-item">
+        <span class="tag ${l.result === "published" ? "pub" : "dec"}">${l.result === "published" ? "PUBLISHED" : "DECLINED"}</span>
+        <strong>${esc(l.title || "")}</strong> — ${esc(l.name || "")} · ${esc(l.cat || "")}
+        ${l.reasonEn ? `<br><span style="color:#7a1d1d">${esc(l.reasonEn)}</span>` : ""}
+        <br><span style="color:var(--muted)">${new Date(l.ts).toLocaleString("en-GB")}</span>
+      </div>`).join("") : "<p style='color:var(--muted)'>Abhi koi submission nahi aayi.</p>";
+  } catch (e) {
+    $("postsList").innerHTML = "<p>Server se rabta nahi ho saka.</p>";
+  }
+}
+
+$("publishBtn").addEventListener("click", async () => {
+  const m = $("pubMsg");
+  const payload = {
+    action: "create",
+    title: $("aTitle").value.trim(),
+    desc: $("aBody").value.trim(),
+    cat: $("aCat").value,
+    status: $("aStatus").value,
+    useAi: $("aAi").checked,
+    image: photoData || undefined
+  };
+  if (payload.title.length < 4 || payload.desc.length < 10) { msg(m, "bad", "❌ Title aur tafseel zaroor likhein"); return; }
+  msg(m, "wait", "⏳ Publish ho raha hai — AI on hai to 30-60 second lag sakte hain...");
+  $("publishBtn").disabled = true;
+  try {
+    const j = await api(payload);
+    if (j.ok) {
+      msg(m, "ok", "✅ Post publish ho gayi: “" + (j.post.titleEn || payload.title) + "”");
+      $("aTitle").value = ""; $("aBody").value = ""; $("aPhoto").value = "";
+      photoData = null; $("aPrev").hidden = true;
+      loadList();
+    } else msg(m, "bad", "❌ " + (j.error || "Publish nahi hui"));
+  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+  $("publishBtn").disabled = false;
+});
+
+if (token) showPanel();
+</script>
+</body>
+</html>

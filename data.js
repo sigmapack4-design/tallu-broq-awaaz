@@ -33,7 +33,7 @@ const POSTS = [
 
 const DIRECTORY = [
   { icon: "🧱", nameEn: "Mistri / Construction", nameUr: "مستری / تعمیرات",
-    descEn: "Raj mistri, mazdoor and construction work. Names and numbers of local workers will be listed here — send yours on WhatsApp to get added." },
+    descEn: "Raj mistri, mazdoor and construction work. Names and numbers of local workers will be listed here — use the Add Post form to get your name added, it is free." },
   { icon: "💡", nameEn: "Electrician", nameUr: "الیکٹریشن",
     descEn: "Bijli ka kaam — wiring, repair and fitting. Local electricians can add their name and number here for free." },
   { icon: "🚗", nameEn: "Driver / Transport", nameUr: "ڈرائیور / گاڑی",
