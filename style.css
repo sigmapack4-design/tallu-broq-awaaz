@@ -46,6 +46,7 @@ button{font-family:inherit;cursor:pointer}
 .brand{display:flex;align-items:center;gap:12px;flex-shrink:1;min-width:0}
 .brand-mark{width:48px;height:48px;display:block;flex-shrink:0}
 .brand-mark svg{width:100%;height:100%}
+.brand-mark img{width:100%;height:100%;display:block;border-radius:50%}
 .brand-text{display:flex;flex-direction:column;line-height:1.1;min-width:0}
 .brand-name{font-weight:800;font-size:1.16rem;color:var(--green);letter-spacing:.2px;white-space:nowrap}
 .brand-name-2{color:var(--gold)}
