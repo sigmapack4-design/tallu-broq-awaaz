@@ -223,12 +223,24 @@ let POSTS = [], LOG = [];
 function msg(el, kind, text) { el.className = "msg " + kind; el.textContent = text; }
 
 async function api(payload) {
-  const r = await fetch(API_BASE + "/api/admin", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Admin-Token": token },
-    body: JSON.stringify(payload)
-  });
-  return r.json();
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 30000);
+  try {
+    const r = await fetch(API_BASE + "/api/admin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Admin-Token": token },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal
+    });
+    return await r.json();
+  } finally { clearTimeout(timer); }
+}
+
+function forceRelogin() {
+  token = ""; meUser = "";
+  sessionStorage.removeItem("tbka-admin"); sessionStorage.removeItem("tbka-user");
+  $("panel").hidden = true; $("loginCard").hidden = false; $("logoutBtn").hidden = true;
+  msg($("loginMsg"), "bad", "Session purana tha jo naye system se match nahi karta — dobara login karein (username: admin)");
 }
 
 function compressImage(file) {
@@ -309,7 +321,8 @@ async function refresh() {
   try {
     const j = await api({ action: "list" });
     if (j.ok) { POSTS = j.posts || []; LOG = j.log || []; renderStats(); renderPosts(); renderLog(); }
-  } catch (e) { $("postsList").innerHTML = "<p>Server se rabta nahi ho saka.</p>"; }
+    else { forceRelogin(); return; }
+  } catch (e) { $("postsList").innerHTML = "<p>Server se rabta nahi ho saka — page dobara khol kar koshish karein.</p>"; return; }
   loadAdmins();
   loadSettings();
 }
