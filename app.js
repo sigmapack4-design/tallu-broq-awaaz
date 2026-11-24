@@ -87,6 +87,8 @@ function viewHead(en, ur, sub) {
 function homeView() {
   const posts = allPosts();
   const latest = posts.slice(0, 3);
+  const guideVid = VIDS.find(isGuide);
+  const otherVids = VIDS.filter(v => v !== guideVid);
   const tickerItems = posts.map(p => esc(p.titleEn)).join("<span>✦</span>");
   const sections = [
     { route: "news",    ic: "📰", en: "Latest News",        txt: "Every latest update from the village, here first.", gold: false },
@@ -129,7 +131,8 @@ function homeView() {
   ${VIDS.length ? `
   <div class="sec-title reveal"><h2>Videos</h2></div>
   <p class="sec-sub reveal">Village videos — watch, like and share your views.</p>
-  <div class="vgrid">${VIDS.slice(0, 3).map(videoCard).join("")}</div>
+  ${guideVid ? featuredBlock(guideVid) : ""}
+  ${otherVids.length ? `<div class="vgrid">${otherVids.slice(0, 3).map(videoCard).join("")}</div>` : ""}
   <p style="text-align:center;margin-top:14px"><a class="mini-link" href="#/videos" style="color:var(--green);font-weight:700">View All Videos →</a></p>` : ""}
 
   <div class="sec-title reveal"><h2>Photo Gallery</h2></div>
@@ -257,23 +260,46 @@ const likedSet = () => { try { return new Set(JSON.parse(localStorage.getItem("t
 const saveLiked = s => localStorage.setItem("tbka-liked", JSON.stringify([...s]));
 function videoCard(v) {
   const th = v.type === "youtube" ? `https://i.ytimg.com/vi/${esc(v.yt)}/hqdefault.jpg` : "";
+  const thumb = v.type === "youtube"
+    ? (th ? `<img src="${th}" alt="" loading="lazy">` : `<span class="vthumb-file">🎬</span>`)
+    : `<video src="${esc(v.url)}" muted playsinline preload="metadata"></video>`;
   return `<a class="vcard reveal" href="#/video/${esc(v.id)}">
-    <span class="vthumb">${th ? `<img src="${th}" alt="" loading="lazy">` : `<span class="vthumb-file">🎬</span>`}<span class="vplay">▶</span></span>
+    <span class="vthumb">${thumb}<span class="vplay">▶</span></span>
     <span class="vmeta"><b>${esc(v.title)}</b><span>❤️ ${v.likes || 0} · 💬 ${(v.comments || []).length}</span></span>
   </a>`;
 }
+/* The posting-guide (explainer) video: plays by itself, 21st.dev style —
+   autoplay, muted, inline, looping, so it never sits stuck on a play button. */
+const isGuide = v => String(v.url || "").includes("posting-guide");
+function autoPlayer(v, loop) {
+  if (v.type === "youtube") {
+    return `<iframe src="https://www.youtube-nocookie.com/embed/${esc(v.yt)}?rel=0&autoplay=1&mute=1&playsinline=1${loop ? `&loop=1&playlist=${esc(v.yt)}` : ""}" title="${esc(v.title)}" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  }
+  return `<video src="${esc(v.url)}" autoplay muted ${loop ? "loop " : ""}playsinline preload="auto" controls></video>`;
+}
+function featuredBlock(v) {
+  return `<div class="feat-video reveal">
+    <div class="player-wrap">${autoPlayer(v, true)}</div>
+    <div class="feat-meta"><b>${esc(v.title)}</b><a href="#/video/${esc(v.id)}">❤️ ${v.likes || 0} · 💬 ${(v.comments || []).length} · Open & Comment →</a></div>
+  </div>`;
+}
 function videosView() {
-  return viewHead("Videos", "", "Village videos — watch, like, comment and share.") +
-    (VIDS.length ? `<section class="section"><div class="vgrid">${VIDS.map(videoCard).join("")}</div></section>`
-      : `<section class="section"><div class="empty-note reveal">No videos yet — the first video is coming soon.</div></section>`);
+  const guide = VIDS.find(isGuide);
+  const yt = VIDS.filter(v => v.type === "youtube" && v !== guide);
+  const files = VIDS.filter(v => v.type !== "youtube" && v !== guide);
+  let h = viewHead("Videos", "", "Village videos — watch, like, comment and share.");
+  if (!VIDS.length) return h + `<section class="section"><div class="empty-note reveal">No videos yet — the first video is coming soon.</div></section>`;
+  h += `<section class="section">`;
+  if (guide) h += `<div class="sec-title reveal"><h2>Posting Guide — Watch & Learn</h2></div>` + featuredBlock(guide);
+  if (yt.length) h += `<div class="sec-title reveal"><h2>YouTube Videos</h2></div><div class="vgrid">${yt.map(videoCard).join("")}</div>`;
+  if (files.length) h += `<div class="sec-title reveal"><h2>Uploaded Videos</h2></div><div class="vgrid">${files.map(videoCard).join("")}</div>`;
+  return h + `</section>`;
 }
 function videoView(id) {
   const v = VIDS.find(x => x.id === id);
   if (!v) return `<section class="section"><div class="empty-note">Video not found — <a href="#/videos" style="color:var(--green);font-weight:700">view all videos</a>.</div></section>`;
   const liked = likedSet().has(v.id);
-  const player = v.type === "youtube"
-    ? `<iframe src="https://www.youtube-nocookie.com/embed/${esc(v.yt)}?rel=0" title="${esc(v.title)}" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`
-    : `<video src="${esc(v.url)}" controls playsinline preload="metadata"></video>`;
+  const player = autoPlayer(v, isGuide(v));
   const comments = (v.comments || []).map(c => `
     <div class="cmt"><b>${esc(c.name)}</b><span>${new Date(c.ts).toLocaleDateString("en-GB")}</span><p>${esc(c.text)}</p></div>`).join("");
   return `<article class="post-wrap video-wrap">
