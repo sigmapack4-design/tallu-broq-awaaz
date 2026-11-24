@@ -23,12 +23,12 @@ function track(page) {
 
 const I18N = {
   en: {
-    nav_home: "Home", nav_news: "Khabrein", nav_masayil: "Masayil",
-    nav_gaon: "Gaon", nav_kamyabi: "Kamyabi", nav_kaam: "Kaam Kaaj",
+    nav_home: "Home", nav_news: "News", nav_masayil: "Masayil",
+    nav_gaon: "Village", nav_kamyabi: "Kamyabi", nav_kaam: "Kaam Kaaj",
     nav_elaan: "Elaan Board", nav_rabta: "Rabta Directory",
     nav_sakafat: "Sakafat", nav_gallery: "Gallery", nav_videos: "Videos",
     cta_submit: "＋ Add Post",
-    footer_tag: "Gaon ki khabrein, masayil, kamyabi aur sakafat — poori duniya ke liye."
+    footer_tag: "Village news, problems, success stories and culture — for the whole world."
   },
   ur: {
     nav_home: "ہوم", nav_news: "خبریں", nav_masayil: "مسائل",
@@ -39,7 +39,7 @@ const I18N = {
     footer_tag: "گاؤں کی خبریں، مسائل، کامیابی اور ثقافت — پوری دنیا کے لیے۔"
   }
 };
-let LANG = localStorage.getItem("tbka-lang") || "en";
+let LANG = "en"; // site UI is English-only (owner's order 2026-11-24); blog posts stay bilingual
 
 const CATMETA = {
   news:    { en: "News",        ur: "خبریں",   chip: "" },
@@ -66,8 +66,8 @@ function postCard(p) {
   const img = p.dyn ? dynImg(p) : p.img;
   const excerpt = LANG === "ur" ? (p.bodyUr || p.bodyEn) : p.bodyEn;
   const read = p.dyn
-    ? `<a class="readmore" href="#/post/${esc(p.id)}">Read Full Blog <span class="ur" style="font-size:.82rem">— مکمل بلاگ پڑھیں</span> →</a>`
-    : (p.page ? `<a class="readmore" href="${esc(p.page)}">Read Full Blog <span class="ur" style="font-size:.82rem">— مکمل بلاگ پڑھیں</span> →</a>` : "");
+    ? `<a class="readmore" href="#/post/${esc(p.id)}">Read Full Blog →</a>`
+    : (p.page ? `<a class="readmore" href="${esc(p.page)}">Read Full Blog →</a>` : "");
   return `<article class="pcard reveal">
     ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ""}
     <div class="pcard-body">
@@ -81,7 +81,7 @@ function postCard(p) {
 }
 
 function viewHead(en, ur, sub) {
-  return `<div class="view-head reveal"><h1>${esc(en)}<span class="ur">${esc(ur)}</span></h1><p>${esc(sub)}</p></div>`;
+  return `<div class="view-head reveal"><h1>${esc(en)}${ur ? `<span class="ur">${esc(ur)}</span>` : ""}</h1><p>${esc(sub)}</p></div>`;
 }
 
 function homeView() {
@@ -89,10 +89,10 @@ function homeView() {
   const latest = posts.slice(0, 3);
   const tickerItems = posts.map(p => esc(p.titleEn)).join("<span>✦</span>");
   const sections = [
-    { route: "news",    ic: "📰", en: "Latest News",        ur: "تازہ خبریں",   txt: "Gaon ki har taaza khabar, sab se pehle yahan.", gold: false },
-    { route: "masayil", ic: "⚠",  en: "Village Problems",   ur: "مسائل",       txt: "Masla post karein — status sab ke samne update hoga.", gold: false },
-    { route: "kamyabi", ic: "🏆", en: "Success Stories",    ur: "کامیابی",     txt: "Students aur naujawanon ki kamyabi ka jashn.", gold: true },
-    { route: "sakafat", ic: "🎭", en: "Culture",            ur: "ثقافت",       txt: "Mele, riwayat aur hamari pehchan — duniya ke liye.", gold: false }
+    { route: "news",    ic: "📰", en: "Latest News",        txt: "Every latest update from the village, here first.", gold: false },
+    { route: "masayil", ic: "⚠",  en: "Village Problems",   txt: "Post a problem — its status updates in front of everyone.", gold: false },
+    { route: "kamyabi", ic: "🏆", en: "Success Stories",    txt: "Celebrating the success of our students and youth.", gold: true },
+    { route: "sakafat", ic: "🎭", en: "Culture",            txt: "Festivals, traditions and our identity — for the world.", gold: false }
   ];
   return `
   <section class="hero reveal">
@@ -100,9 +100,8 @@ function homeView() {
     <div class="hero-shade"></div>
     <div class="hero-content">
       <span class="hero-chip">Gilgit-Baltistan · Pakistan</span>
-      <h1>Tallu Broq Ki Awaaz — <em>Paharon ki awaaz, gaon ki baat</em></h1>
-      <span class="hero-ur ur">پہاڑوں کی آواز، گاؤں کی بات</span>
-      <p class="hero-sub">Hamare masayil, hamari kamyabiyan, hamari sakafat — Tallu Broq ki awaaz ab poori duniya tak.</p>
+      <h1>Tallu Broq Ki Awaaz — <em>The voice of the mountains, the talk of the village</em></h1>
+      <p class="hero-sub">Our problems, our achievements, our culture — the voice of Tallu Broq, now reaching the whole world.</p>
       <div class="hero-btns">
         <a class="btn-gold" href="#/news">Read Latest News</a>
         <a class="btn-ghost" href="#/submit" data-addpost>Add a Post ＋</a>
@@ -111,29 +110,29 @@ function homeView() {
   </section>
 
   <div class="ticker reveal" aria-label="Latest headlines">
-    <span class="ticker-label">TAAZA</span>
+    <span class="ticker-label">LATEST</span>
     <div class="ticker-track"><div class="ticker-move"><span>${tickerItems}</span><span>${tickerItems}</span></div></div>
   </div>
 
-  <div class="sec-title reveal"><h2>Our Community Sections<span class="ur">ہمارے حصے</span></h2></div>
-  <p class="sec-sub reveal">Har section gaon ki zindagi ka aik rang hai — khabar se sakafat tak.</p>
+  <div class="sec-title reveal"><h2>Our Community Sections</h2></div>
+  <p class="sec-sub reveal">Every section is a colour of village life — from news to culture.</p>
   <div class="cards">
     ${sections.map(s => `<a class="scard ${s.gold ? "gold" : ""} reveal" href="#/${s.route}" data-tilt>
       <span class="scard-ic">${s.ic}</span>
-      <h3>${s.en}</h3><span class="ur">${s.ur}</span>
+      <h3>${s.en}</h3>
       <p>${s.txt}</p><span class="go">Open</span></a>`).join("")}
   </div>
 
-  <div class="sec-title reveal"><h2>Latest Posts<span class="ur">تازہ پوسٹس</span></h2></div>
+  <div class="sec-title reveal"><h2>Latest Posts</h2></div>
   <div class="posts">${latest.map(postCard).join("")}</div>
 
   ${VIDS.length ? `
-  <div class="sec-title reveal"><h2>Videos<span class="ur">ویڈیوز</span></h2></div>
-  <p class="sec-sub reveal">Gaon ki videos — dekhein, like karein aur apni raaye dein.</p>
+  <div class="sec-title reveal"><h2>Videos</h2></div>
+  <p class="sec-sub reveal">Village videos — watch, like and share your views.</p>
   <div class="vgrid">${VIDS.slice(0, 3).map(videoCard).join("")}</div>
-  <p style="text-align:center;margin-top:14px"><a class="mini-link" href="#/videos" style="color:var(--green);font-weight:700">Saari Videos Dekhein →</a></p>` : ""}
+  <p style="text-align:center;margin-top:14px"><a class="mini-link" href="#/videos" style="color:var(--green);font-weight:700">View All Videos →</a></p>` : ""}
 
-  <div class="sec-title reveal"><h2>Photo Gallery<span class="ur">گیلری</span></h2></div>
+  <div class="sec-title reveal"><h2>Photo Gallery</h2></div>
   <div class="gallery">${GALLERY.map(galleryItem).join("")}</div>`;
 }
 
@@ -146,25 +145,25 @@ function listView(cat, en, ur, sub) {
   const items = byCat(cat);
   return viewHead(en, ur, sub) +
     (items.length ? `<div class="posts">${items.map(postCard).join("")}</div>`
-                  : `<div class="empty-note reveal">Abhi is section mein koi post nahi — pehli post aap bhejein!</div>`);
+                  : `<div class="empty-note reveal">No posts in this section yet — send the first one!</div>`);
 }
 
 function kaamView() {
-  return viewHead("Kaam Kaaj", "کام کاج", "Gaon ke hunarmand log aur rozgar — kis ko kya kaam aata hai, sab yahan milega.") +
+  return viewHead("Kaam Kaaj", "", "Skilled people and work in the village — who does what, all in one place.") +
   `<div class="dir-grid">${DIRECTORY.map(d => `<div class="dcard reveal">
       <h3><span>${d.icon}</span>${esc(d.nameEn)}<span class="ur" style="margin-left:auto;font-size:.85rem;color:var(--gold)">${esc(d.nameUr)}</span></h3>
       <p>${esc(d.descEn)}</p></div>`).join("")}</div>
-   <div class="empty-note reveal">Apna naam aur hunar is list mein add karwane ke liye <a href="#/submit" style="color:var(--green);font-weight:700">Add Post form</a> bharein — bilkul muft hai.</div>`;
+   <div class="empty-note reveal">To add your name and skill to this list, fill the <a href="#/submit" style="color:var(--green);font-weight:700">Add Post form</a> — it is completely free.</div>`;
 }
 
 function galleryView() {
-  return viewHead("Photo Gallery", "گیلری", "Tallu Broq ki khoobsurati — pahar, khet, mele aur log.") +
+  return viewHead("Photo Gallery", "", "The beauty of Tallu Broq — mountains, fields, festivals and people.") +
   `<div class="gallery">${GALLERY.map(galleryItem).join("")}</div>
-   <div class="empty-note reveal">Gaon ki asal photos ke liye <a href="#/submit" style="color:var(--green);font-weight:700">Add Post</a> se apni photo bhejein — AI system usay post bana kar laga dega.</div>`;
+   <div class="empty-note reveal">To share a real photo of the village, send it through <a href="#/submit" style="color:var(--green);font-weight:700">Add Post</a> — the AI system will turn it into a post.</div>`;
 }
 
 function rabtaView() {
-  return viewHead("Rabta Directory", "رابطہ", "Gaon ke aham idare aur rabte ki maloomat.") +
+  return viewHead("Rabta Directory", "", "Important institutions and contact information of the village.") +
   `<div class="dir-grid">${RABTA.map(d => `<div class="dcard reveal">
       <h3><span>${d.icon}</span>${esc(d.nameEn)}<span class="ur" style="margin-left:auto;font-size:.85rem;color:var(--gold)">${esc(d.nameUr)}</span></h3>
       <p>${esc(d.descEn)}</p></div>`).join("")}</div>`;
@@ -172,53 +171,53 @@ function rabtaView() {
 
 const GUIDE_HTML = `
   <div class="guide-box">
-    <h3>📋 Posting ke Usool <span class="ur">پوسٹنگ کے اصول</span></h3>
+    <h3>📋 Posting Guidelines</h3>
     <div class="guide-cols">
       <div>
-        <p class="guide-h good">✅ Ye post ho sakti hai:</p>
+        <p class="guide-h good">✅ What you can post:</p>
         <ul>
-          <li>Gaon ki khabrein <span class="ur">گاؤں کی خبریں</span></li>
-          <li>Masayil — pani, bijli, sarak, school, sehat <span class="ur">مسائل</span></li>
-          <li>Kamyabi — students, naujawan <span class="ur">کامیابی</span></li>
-          <li>Sakafat aur elanaat <span class="ur">ثقافت و اعلانات</span></li>
+          <li>Village news</li>
+          <li>Problems — water, electricity, roads, school, health</li>
+          <li>Success stories — students and youth</li>
+          <li>Culture and announcements</li>
         </ul>
       </div>
       <div>
-        <p class="guide-h bad">🚫 Ye bilkul nahi:</p>
+        <p class="guide-h bad">🚫 Strictly not allowed:</p>
         <ul>
-          <li>Kharid-o-farokht, dukaan ya cheezon ki advertisement</li>
-          <li>Gandi, badtameez ya ghair-akhlaqi baat ya photo</li>
-          <li>Kisi shakhs par ilzaam ya larai jhagra</li>
-          <li>Jhooti khabar ya spam</li>
+          <li>Buying and selling, shop or product advertisements</li>
+          <li>Rude, abusive or immoral words or photos</li>
+          <li>Blaming or attacking any person, or fights</li>
+          <li>Fake news or spam</li>
         </ul>
       </div>
     </div>
-    <p class="guide-note">🤖 <strong>System kaisa kaam karta hai:</strong> Aap title, tafseel aur photo bhejte hain → <strong>AI pehle check karta hai</strong> → saaf post ko AI khud behtar bana kar <strong>English + Urdu blog</strong> ki shakal mein SEO ke saath publish kar deta hai. Jo post usool ke khilaf ho, wo <strong>wahin decline</strong> ho jati hai — site par nahi lagti. Photo khud-ba-khud compress ho jati hai taake site tez chale.</p>
+    <p class="guide-note">🤖 <strong>How the system works:</strong> You send a title, details and a photo → <strong>the AI checks it first</strong> → a clean post is polished by the AI and published as an <strong>English + Urdu blog</strong> with SEO. A post against the rules is <strong>declined on the spot</strong> — it never appears on the site. Photos are compressed automatically so the site stays fast.</p>
   </div>`;
 
 function submitView() {
-  return viewHead("Add Post", "پوسٹ کریں", "Khabar, masla, kamyabi ya elaan — likh kar bhejein, AI usay check karke blog bana kar publish kar dega.") +
+  return viewHead("Add Post", "", "News, a problem, a success story or an announcement — write it and send it. The AI checks it, turns it into a blog and publishes it.") +
   GUIDE_HTML +
   `<form class="form-card reveal" id="submitForm">
-     <label for="fName">Aap ka naam / Your name <span class="opt">(ikhtiyari — optional)</span></label>
+     <label for="fName">Your name <span class="opt">(optional)</span></label>
      <input id="fName" placeholder="e.g. Muhammad Ali" maxlength="60">
-     <label for="fCat">Qisam / Category</label>
+     <label for="fCat">Category</label>
      <select id="fCat">
-       <option value="masayil">Masla (Problem) — مسئلہ</option>
-       <option value="news">Khabar (News) — خبر</option>
-       <option value="kamyabi">Kamyabi (Success) — کامیابی</option>
-       <option value="elaan">Elaan (Announcement) — اعلان</option>
-       <option value="sakafat">Sakafat (Culture) — ثقافت</option>
+       <option value="masayil">Problem (Masayil)</option>
+       <option value="news">News</option>
+       <option value="kamyabi">Success Story (Kamyabi)</option>
+       <option value="elaan">Announcement (Elaan)</option>
+       <option value="sakafat">Culture (Sakafat)</option>
      </select>
-     <label for="fTitle">Unwaan / Title</label>
-     <input id="fTitle" required placeholder="Short title — mukhtasar unwaan" maxlength="160">
-     <label for="fBody">Tafseel / Details</label>
-     <textarea id="fBody" rows="5" required placeholder="Poori tafseel likhein — kya hua, kahan hua, kab hua... (kam az kam 20 haroof)"></textarea>
-     <label for="fPhoto">Photo <span class="opt">(ikhtiyari — lekin post achi lagegi)</span></label>
+     <label for="fTitle">Title</label>
+     <input id="fTitle" required placeholder="A short, clear title" maxlength="160">
+     <label for="fBody">Details</label>
+     <textarea id="fBody" rows="5" required placeholder="Write the full details — what happened, where, and when… (at least 20 characters)"></textarea>
+     <label for="fPhoto">Photo <span class="opt">(optional — but the post looks better with one)</span></label>
      <input id="fPhoto" type="file" accept="image/*">
      <img id="photoPrev" class="photo-prev" alt="" hidden>
-     <button class="btn-gold" type="submit" id="submitBtn">Publish Karein →</button>
-     <p class="form-note">Submit karne par AI pehle post check karega — aam tor par 5 se 15 second lagte hain. Saaf post foran publish ho jayegi.</p>
+     <button class="btn-gold" type="submit" id="submitBtn">Publish →</button>
+     <p class="form-note">When you submit, the AI checks your post first — it usually takes 5 to 15 seconds. A clean post is published right away.</p>
      <div id="submitResult"></div>
    </form>`;
 }
@@ -230,14 +229,14 @@ function paras(text) {
 
 function postView(id) {
   const p = DYN.find(x => x.id === id);
-  if (!p) return viewHead("Post", "پوسٹ", "") +
-    `<div class="empty-note reveal">Ye post nahi mili — shayad delete ho gayi hai. <a href="#/home" style="color:var(--green);font-weight:700">Home par wapas</a></div>`;
+  if (!p) return viewHead("Post", "", "") +
+    `<div class="empty-note reveal">This post was not found — it may have been deleted. <a href="#/home" style="color:var(--green);font-weight:700">Back to Home</a></div>`;
   const meta = CATMETA[p.cat] || CATMETA.news;
   const status = p.status ? `<span class="status ${p.status}">${esc(STATUS[p.status].en)}</span>` : "";
   const img = dynImg(p);
   const url = location.href;
   return `<article class="blog-wrap reveal">
-    <a class="back-link" href="#/${esc(p.cat === "masayil" ? "masayil" : p.cat)}">← Back / <span class="ur">واپس</span></a>
+    <a class="back-link" href="#/${esc(p.cat === "masayil" ? "masayil" : p.cat)}">← Back</a>
     <div style="margin-top:14px"><span class="chip ${meta.chip}">${esc(meta.en)}</span> ${status}</div>
     <h1 class="blog-h1">${esc(p.titleEn)}</h1>
     ${p.titleUr ? `<h1 class="blog-h1ur ur">${esc(p.titleUr)}</h1>` : ""}
@@ -264,13 +263,13 @@ function videoCard(v) {
   </a>`;
 }
 function videosView() {
-  return viewHead("Videos", "ویڈیوز", "Gaon ki videos — dekhein, like karein, comment karein aur share karein.") +
+  return viewHead("Videos", "", "Village videos — watch, like, comment and share.") +
     (VIDS.length ? `<section class="section"><div class="vgrid">${VIDS.map(videoCard).join("")}</div></section>`
-      : `<section class="section"><div class="empty-note reveal">Abhi koi video nahi — pehli video jald aa rahi hai.</div></section>`);
+      : `<section class="section"><div class="empty-note reveal">No videos yet — the first video is coming soon.</div></section>`);
 }
 function videoView(id) {
   const v = VIDS.find(x => x.id === id);
-  if (!v) return `<section class="section"><div class="empty-note">Video nahi mili — <a href="#/videos" style="color:var(--green);font-weight:700">saari videos dekhein</a>.</div></section>`;
+  if (!v) return `<section class="section"><div class="empty-note">Video not found — <a href="#/videos" style="color:var(--green);font-weight:700">view all videos</a>.</div></section>`;
   const liked = likedSet().has(v.id);
   const player = v.type === "youtube"
     ? `<iframe src="https://www.youtube-nocookie.com/embed/${esc(v.yt)}?rel=0" title="${esc(v.title)}" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`
@@ -278,19 +277,19 @@ function videoView(id) {
   const comments = (v.comments || []).map(c => `
     <div class="cmt"><b>${esc(c.name)}</b><span>${new Date(c.ts).toLocaleDateString("en-GB")}</span><p>${esc(c.text)}</p></div>`).join("");
   return `<article class="post-wrap video-wrap">
-    <a class="back-link" href="#/videos">← Saari Videos / <span class="ur">تمام ویڈیوز</span></a>
+    <a class="back-link" href="#/videos">← All Videos</a>
     <h1 class="post-title">${esc(v.title)}</h1>
     <div class="player-wrap">${player}</div>
     <div class="v-actions">
       <button class="like-btn ${liked ? "on" : ""}" id="likeBtn" type="button">❤️ <span id="likeCount">${v.likes || 0}</span></button>
       <button class="share-btn share-copy" id="shareVideoBtn" type="button">↗ Share</button>
     </div>
-    <h2 class="cmt-head">Comments · <span class="ur">تبصرے</span> (${(v.comments || []).length})</h2>
-    <div id="cmtList">${comments || '<p class="cmt-none">Abhi koi comment nahi — pehla comment aap karein.</p>'}</div>
+    <h2 class="cmt-head">Comments (${(v.comments || []).length})</h2>
+    <div id="cmtList">${comments || '<p class="cmt-none">No comments yet — be the first to comment.</p>'}</div>
     <form class="cmt-form" id="cmtForm">
-      <input type="text" id="cmtName" maxlength="40" placeholder="Aap ka naam" value="${esc(localStorage.getItem("tbka-name") || "")}">
-      <textarea id="cmtText" rows="3" maxlength="500" placeholder="Apna comment likhein…"></textarea>
-      <button class="btn-gold" type="submit">Comment Karein →</button>
+      <input type="text" id="cmtName" maxlength="40" placeholder="Your name" value="${esc(localStorage.getItem("tbka-name") || "")}">
+      <textarea id="cmtText" rows="3" maxlength="500" placeholder="Write your comment…"></textarea>
+      <button class="btn-gold" type="submit">Post Comment →</button>
       <p class="cmt-msg" id="cmtMsg"></p>
     </form>
   </article>`;
@@ -304,7 +303,7 @@ function bindVideoView() {
   if (shareBtn) shareBtn.addEventListener("click", async () => {
     if (navigator.share) { try { await navigator.share({ title: v.title, url: location.href }); } catch (e) { /* dismissed */ } }
     else {
-      try { await navigator.clipboard.writeText(location.href); shareBtn.textContent = "Link Copy Ho Gaya ✓"; }
+      try { await navigator.clipboard.writeText(location.href); shareBtn.textContent = "Link Copied ✓"; }
       catch (e) { shareBtn.textContent = location.href; }
     }
   });
@@ -330,9 +329,9 @@ function bindVideoView() {
     const nm = document.getElementById("cmtName").value.trim();
     const tx = document.getElementById("cmtText").value.trim();
     const m = document.getElementById("cmtMsg");
-    if (nm.length < 2 || tx.length < 2) { m.textContent = "❌ Naam aur comment dono likhein"; return; }
+    if (nm.length < 2 || tx.length < 2) { m.textContent = "❌ Please write your name and a comment"; return; }
     localStorage.setItem("tbka-name", nm);
-    m.textContent = "⏳ Bhej raha hai…";
+    m.textContent = "⏳ Posting…";
     try {
       const cid = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
       const r = await fetch(API_BASE + "/api/videos", {
@@ -344,8 +343,8 @@ function bindVideoView() {
         v.comments = v.comments || [];
         v.comments.push(j.comment);
         render();
-      } else m.textContent = "❌ " + (j.error || "Comment nahi laga");
-    } catch (err) { m.textContent = "❌ Server se rabta nahi ho saka"; }
+      } else m.textContent = "❌ " + (j.error || "Comment could not be posted");
+    } catch (err) { m.textContent = "❌ Could not reach the server"; }
   });
 }
 async function loadVideos() {
@@ -362,14 +361,14 @@ async function loadVideos() {
 
 const ROUTES = {
   home:    { nav: "home",    render: homeView },
-  news:    { nav: "news",    render: () => listView("news", "Khabrein", "خبریں", "Tallu Broq ki taaza tareen khabrein.") },
-  masayil: { nav: "masayil", render: () => listView("masayil", "Masayil", "مسائل", "Gaon ke masayil aur un ki halat — Report, Kaam Jari ya Hal.") },
-  kamyabi: { nav: "kamyabi", render: () => listView("kamyabi", "Kamyabi", "کامیابی", "Hamare logon ki kamyabi ki khabrein.") },
+  news:    { nav: "news",    render: () => listView("news", "News", "", "The latest news from Tallu Broq.") },
+  masayil: { nav: "masayil", render: () => listView("masayil", "Masayil", "", "Village problems and their status — Reported, In Progress or Resolved.") },
+  kamyabi: { nav: "kamyabi", render: () => listView("kamyabi", "Kamyabi", "", "Success stories of our people.") },
   kaam:    { nav: "kaam",    render: kaamView },
-  sakafat: { nav: "sakafat", render: () => listView("sakafat", "Sakafat", "ثقافت", "Mele, riwayat, zaban aur hamari pehchan.") },
+  sakafat: { nav: "sakafat", render: () => listView("sakafat", "Sakafat", "", "Festivals, traditions, language and our identity.") },
   gallery: { nav: "gallery", render: galleryView },
   videos:  { nav: "videos",  render: videosView },
-  elaan:   { nav: "elaan",   render: () => listView("elaan", "Elaan Board", "اعلان بورڈ", "Jirga ke faislay, meetings aur aham elanaat.") },
+  elaan:   { nav: "elaan",   render: () => listView("elaan", "Elaan Board", "", "Jirga decisions, meetings and important announcements.") },
   rabta:   { nav: "rabta",   render: rabtaView },
   submit:  { nav: "",        render: submitView }
 };
@@ -381,8 +380,7 @@ function applyLang() {
     if (dict[k]) el.textContent = dict[k];
     el.classList.toggle("ur", LANG === "ur");
   });
-  document.getElementById("langBtn").textContent = LANG === "ur" ? "EN" : "اردو";
-  document.documentElement.lang = LANG === "ur" ? "ur" : "en";
+  document.documentElement.lang = "en";
 }
 
 function bindReveals() {
@@ -454,8 +452,8 @@ function bindSubmitForm() {
       image: photoData || undefined
     };
     btn.disabled = true;
-    btn.textContent = "AI check kar raha hai... ⏳";
-    box.innerHTML = `<div class="result-wait">🤖 AI aap ki post parh kar check kar raha hai — chand second intezar karein, page band na karein.</div>`;
+    btn.textContent = "AI is checking... ⏳";
+    box.innerHTML = `<div class="result-wait">🤖 The AI is reading and checking your post — please wait a few seconds, do not close the page.</div>`;
     try {
       const r = await fetch(API_BASE + "/api/submit", {
         method: "POST",
@@ -465,22 +463,22 @@ function bindSubmitForm() {
       const j = await r.json();
       if (j.ok && j.post) {
         DYN.unshift({ ...j.post, dyn: true });
-        box.innerHTML = `<div class="result-ok">✅ <strong>Mubarak! Aap ki post publish ho gayi hai.</strong><br>
-          AI ne usay blog ki shakal di hai: “${esc(j.post.titleEn)}”<br>
-          <a href="#/post/${esc(j.post.id)}">👉 Apni post dekhein</a></div>`;
+        box.innerHTML = `<div class="result-ok">✅ <strong>Congratulations! Your post has been published.</strong><br>
+          The AI shaped it into a blog: “${esc(j.post.titleEn)}”<br>
+          <a href="#/post/${esc(j.post.id)}">👉 View your post</a></div>`;
         form.reset();
         photoData = null;
         document.getElementById("photoPrev").hidden = true;
       } else if (j.declined) {
-        box.innerHTML = `<div class="result-bad">🚫 <strong>Ye post publish nahi ho sakti.</strong><br>${esc(j.reasonEn || "")}<br><span class="ur">${esc(j.reasonUr || "")}</span><br>Post theek karke dobara koshish karein.</div>`;
+        box.innerHTML = `<div class="result-bad">🚫 <strong>This post cannot be published.</strong><br>${esc(j.reasonEn || "")}<br>Please fix the post and try again.</div>`;
       } else {
-        box.innerHTML = `<div class="result-bad">⚠️ ${esc(j.error || "Kuch masla ho gaya")} — dobara koshish karein.</div>`;
+        box.innerHTML = `<div class="result-bad">⚠️ ${esc(j.error || "Something went wrong")} — please try again.</div>`;
       }
     } catch (err) {
-      box.innerHTML = `<div class="result-bad">⚠️ Server se rabta nahi ho saka. Internet check karke dobara koshish karein.</div>`;
+      box.innerHTML = `<div class="result-bad">⚠️ Could not reach the server. Check your internet connection and try again.</div>`;
     }
     btn.disabled = false;
-    btn.textContent = "Publish Karein →";
+    btn.textContent = "Publish →";
   });
 }
 
@@ -510,7 +508,7 @@ function render() {
   bindVideoView();
   const cp = document.getElementById("copyLinkBtn");
   if (cp) cp.addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText(location.href); cp.textContent = "Link Copy Ho Gaya ✓"; }
+    try { await navigator.clipboard.writeText(location.href); cp.textContent = "Link Copied ✓"; }
     catch (e) { cp.textContent = location.href; }
   });
   app.querySelectorAll("[data-addpost]").forEach(a =>
@@ -593,13 +591,6 @@ document.querySelectorAll("[data-acc]").forEach(btn => {
 });
 document.querySelectorAll("#mobilePanel a").forEach(a =>
   a.addEventListener("click", closeAllMenus));
-
-/* ----- Language toggle ----- */
-document.getElementById("langBtn").addEventListener("click", () => {
-  LANG = LANG === "ur" ? "en" : "ur";
-  localStorage.setItem("tbka-lang", LANG);
-  render();
-});
 
 /* ----- Load AI-system posts, then render ----- */
 async function loadDynamic() {
