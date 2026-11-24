@@ -11,38 +11,87 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=6">
 <style>
-  .admin-wrap{max-width:920px;margin:0 auto;padding:22px 16px 60px}
-  .admin-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-  .admin-head img{width:52px;height:52px;border-radius:50%}
-  .admin-head h1{font-size:1.3rem;color:var(--green)}
-  .admin-head p{color:var(--muted);font-size:.85rem}
-  .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:20px;box-shadow:var(--shadow-soft)}
+  body{background:#e9efe9}
+  /* ---------- login ---------- */
+  .login-wrap{max-width:420px;margin:7vh auto 40px;padding:0 16px}
+  .login-card{background:#fff;border-radius:26px;padding:30px 28px;box-shadow:0 24px 60px rgba(8,50,40,.18)}
+  .login-card .lg-logo{width:84px;height:84px;border-radius:50%;display:block;margin:0 auto 10px;border:3px solid var(--gold)}
+  .login-card h1{font-size:1.25rem;color:var(--green);text-align:center}
+  .login-card p{text-align:center;color:var(--muted);font-size:.86rem;margin-bottom:8px}
+  /* ---------- shell ---------- */
+  .shell{display:flex;gap:0;max-width:1240px;margin:18px auto;background:#f4f7f3;border-radius:28px;overflow:hidden;box-shadow:0 30px 70px rgba(8,50,40,.25);min-height:calc(100vh - 36px)}
+  .side{width:248px;flex:0 0 248px;background:linear-gradient(180deg,#0a3d31,#07332a);color:#dcefe6;padding:26px 18px;display:flex;flex-direction:column;gap:6px}
+  .side-brand{display:flex;align-items:center;gap:11px;padding:2px 8px 20px}
+  .side-brand img{width:46px;height:46px;border-radius:50%;border:2px solid var(--gold)}
+  .side-brand b{font-size:1.02rem;color:#fff;line-height:1.2;display:block}
+  .side-brand span{font-size:.7rem;letter-spacing:.14em;color:#8fc7ae;font-weight:700}
+  .side-label{font-size:.66rem;letter-spacing:.16em;color:#7fb89e;font-weight:700;padding:8px 10px 4px}
+  .nav-item{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:transparent;border:0;color:#cfe8da;font-family:inherit;font-weight:600;font-size:.92rem;padding:12px 14px;border-radius:14px;cursor:pointer}
+  .nav-item .dot{width:30px;height:30px;flex:0 0 30px;border-radius:10px;background:rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:.95rem}
+  .nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
+  .nav-item.on{background:#e8f3ec;color:#0a3d31}
+  .nav-item.on .dot{background:#0a3d31;color:#fff}
+  .side-user{margin-top:auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:13px 14px;display:flex;align-items:center;gap:11px}
+  .side-user img{width:40px;height:40px;border-radius:50%}
+  .side-user b{color:#fff;font-size:.9rem;display:block;line-height:1.2;word-break:break-all}
+  .side-user span{font-size:.72rem;color:#8fc7ae}
+  .side-user button{margin-left:auto;background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:10px;padding:8px 11px;font-family:inherit;font-weight:700;font-size:.75rem;cursor:pointer}
+  .side-user button:hover{background:#b3261e}
+  .main{flex:1;padding:26px 28px 46px;min-width:0}
+  .main-head{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+  .main-head h1{font-size:1.55rem;color:#0d2b22}
+  .main-head .live{margin-left:auto;background:#0a3d31;color:#c9f2d8;font-size:.74rem;font-weight:700;padding:8px 14px;border-radius:999px;display:flex;align-items:center;gap:8px}
+  .live i{width:8px;height:8px;border-radius:50%;background:#3ddc74;display:inline-block;animation:pulse 1.6s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(61,220,116,.5)}70%{box-shadow:0 0 0 7px rgba(61,220,116,0)}100%{box-shadow:0 0 0 0 rgba(61,220,116,0)}}
+  /* ---------- cards & stats ---------- */
+  .card{background:#fff;border:1px solid #e3eae3;border-radius:22px;padding:22px 24px;margin-bottom:20px;box-shadow:0 8px 26px rgba(10,61,49,.06)}
   .card h2{color:var(--green);font-size:1.08rem;margin-bottom:12px}
+  .card h3{color:#0d2b22;font-size:.98rem;margin:20px 0 10px}
   .card label{display:block;font-weight:600;font-size:.9rem;margin:12px 0 5px}
   .card input[type=text],.card input[type=password],.card input[type=url],.card select,.card textarea{
-    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.95rem;background:#fff;
-  }
+    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.95rem;background:#fff}
   .card input:focus,.card select:focus,.card textarea:focus{outline:none;border-color:var(--green)}
-  .row{display:flex;gap:12px;flex-wrap:wrap}
-  .row>*{flex:1;min-width:150px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}.row>*{flex:1;min-width:150px}
   .check{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;margin-top:14px}
   .check input{width:18px;height:18px}
   .msg{margin-top:12px;font-size:.92rem;border-radius:12px;padding:11px 14px;display:none;line-height:1.55}
   .msg.ok{display:block;background:#e5f6ec;border:1px solid #8fd3a8;color:#14532d}
   .msg.bad{display:block;background:#fdecec;border:1px solid #f0a3a3;color:#7a1d1d}
   .msg.wait{display:block;background:#fff7e0;border:1px solid #ecd27a;color:#6b5410}
-  /* stats */
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px}
-  .stat{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow-soft)}
-  .stat b{display:block;font-size:1.7rem;color:var(--green);line-height:1.1}
-  .stat span{font-size:.8rem;color:var(--muted);font-weight:600}
-  .stat.green{border-top-color:var(--green)} .stat.red{border-top-color:#b3261e}
-  /* tabs */
-  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-  .tab-btn{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:10px 18px;font-weight:700;font-size:.88rem;cursor:pointer;font-family:inherit}
-  .tab-btn.on{background:var(--green);color:#fff;border-color:var(--green)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+  .stat{background:#fff;border:1px solid #e3eae3;border-radius:20px;padding:17px 18px;box-shadow:0 8px 26px rgba(10,61,49,.06)}
+  .stat b{display:block;font-size:1.85rem;color:#0d2b22;line-height:1.1}
+  .stat span{font-size:.78rem;color:var(--muted);font-weight:600}
+  .stat .sub{font-size:.72rem;color:#7d8b82;margin-top:3px}
+  .stat.hero{background:linear-gradient(135deg,#0e5c43,#0a3d31);border:0}
+  .stat.hero b{color:#fff}.stat.hero span{color:#a9d8bf}.stat.hero .sub{color:#8fc7ae}
+  .bars{display:flex;align-items:flex-end;gap:3px;height:30px;margin-top:9px}
+  .bars i{flex:1;background:#2f9e5f;border-radius:3px 3px 0 0;min-height:3px}
+  .bars i.dim{background:#cfe3d4}
+  /* donut + wide cards */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid2 .card{margin-bottom:0}
+  .donut-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .donut{position:relative;width:132px;height:132px;flex:0 0 132px}
+  .donut svg{transform:rotate(-90deg)}
+  .donut .pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .donut .pct b{font-size:1.65rem;color:#0d2b22}
+  .donut .pct span{font-size:.68rem;color:var(--muted);font-weight:700}
+  .legend{font-size:.88rem;line-height:2}
+  .legend i{width:11px;height:11px;border-radius:4px;display:inline-block;margin-right:8px}
+  .cta-card{background:linear-gradient(120deg,#0e5c43,#08392c);border:0;color:#e6f4ec;display:flex;align-items:center;gap:18px}
+  .cta-card img{width:64px;height:64px;border-radius:50%;border:2px solid var(--gold)}
+  .cta-card h2{color:#fff;margin:0 0 4px}
+  .cta-card p{font-size:.86rem;color:#a9d8bf}
+  .cta-card a{margin-left:auto;background:var(--gold);color:#231a02;font-weight:800;text-decoration:none;padding:12px 20px;border-radius:999px;font-size:.86rem;white-space:nowrap}
+  /* 7-day chart */
+  .chart{display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:16px}
+  .chart .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+  .chart .bar{width:70%;max-width:44px;background:linear-gradient(180deg,#35b558,#177245);border-radius:9px 9px 4px 4px;min-height:4px}
+  .chart .v{font-weight:800;font-size:.85rem;color:#0d2b22}
+  .chart .d{font-size:.7rem;color:var(--muted);font-weight:600;text-align:center}
+  /* posts / admins / log */
   .tab-page{display:none}.tab-page.on{display:block}
-  /* posts */
   .apost{border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:10px;background:#fff}
   .apost h3{font-size:.98rem;color:var(--ink)}
   .apost .meta{font-size:.78rem;color:var(--muted);margin:3px 0 8px}
@@ -53,82 +102,155 @@
   .mini-btn.on{background:var(--green);color:#fff;border-color:var(--green)}
   .editor{border-top:1px dashed var(--line);margin-top:12px;padding-top:6px}
   .editor .ur-input{font-family:'Noto Nastaliq Urdu',serif}
-  /* admins + log */
   .arow{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:8px;background:#fff}
   .arow b{font-size:.95rem}
   .arow .you{font-size:.72rem;background:var(--green-soft);color:var(--green);font-weight:800;padding:2px 9px;border-radius:999px}
   .log-item{font-size:.86rem;padding:9px 4px;border-bottom:1px dashed var(--line)}
   .log-item .tag{font-weight:800;font-size:.72rem;padding:2px 9px;border-radius:999px;color:#fff}
   .tag.pub{background:#177245}.tag.dec{background:#b3261e}
-  .logout{margin-left:auto}
+  .visit{display:flex;gap:10px;align-items:baseline;padding:8px 4px;border-bottom:1px dashed var(--line);font-size:.88rem}
+  .visit b{color:#0d2b22}
+  .visit span{margin-left:auto;color:var(--muted);font-size:.76rem;white-space:nowrap}
   .photo-prev{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin-top:8px}
   .logo-prev{width:110px;height:110px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);display:block;margin:8px 0}
+  /* ---------- mobile ---------- */
+  @media (max-width:920px){
+    .shell{flex-direction:column;border-radius:0;margin:0;min-height:100vh}
+    .side{width:auto;flex:none;padding:16px 14px 12px}
+    .side-brand{padding-bottom:12px}
+    .side-label{display:none}
+    .side nav{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+    .nav-item{width:auto;white-space:nowrap;padding:9px 13px}
+    .nav-item .dot{width:24px;height:24px;flex-basis:24px;font-size:.8rem}
+    .side-user{margin-top:10px}
+    .main{padding:20px 15px 40px}
+    .grid2{grid-template-columns:1fr}
+    .cta-card{flex-wrap:wrap}.cta-card a{margin-left:0}
+  }
 </style>
 </head>
 <body>
-<div class="admin-wrap">
-  <div class="admin-head">
-    <img src="assets/logo.png" alt="" id="headLogo">
-    <div>
-      <h1>Tallu Broq Ki Awaaz — Admin Panel</h1>
-      <p id="whoLine">Posting, edit, delete, admins, logo, social links aur password — sab yahan se control karein.</p>
-    </div>
-    <button class="mini-btn logout" id="logoutBtn" hidden>Logout</button>
-  </div>
 
-  <!-- LOGIN -->
-  <div class="card" id="loginCard">
-    <h2>🔐 Admin Login</h2>
-    <label for="lu">Username</label>
-    <input type="text" id="lu" placeholder="admin" autocomplete="username">
-    <label for="pw">Password</label>
-    <input type="password" id="pw" placeholder="Password likhein" autocomplete="current-password">
-    <div style="margin-top:16px"><button class="btn-gold" id="loginBtn" type="button">Login →</button></div>
+<!-- LOGIN -->
+<div class="login-wrap" id="loginCard">
+  <div class="login-card">
+    <img class="lg-logo" src="assets/logo.png" alt="">
+    <h1>Tallu Broq Ki Awaaz</h1>
+    <p>Admin Panel — please log in to continue.</p>
+    <label for="lu" style="display:block;font-weight:600;font-size:.9rem;margin:12px 0 5px">Username</label>
+    <input type="text" id="lu" placeholder="admin" autocomplete="username" style="width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.95rem">
+    <label for="pw" style="display:block;font-weight:600;font-size:.9rem;margin:12px 0 5px">Password</label>
+    <input type="password" id="pw" placeholder="Enter your password" autocomplete="current-password" style="width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.95rem">
+    <div style="margin-top:18px;text-align:center"><button class="btn-gold" id="loginBtn" type="button">Login →</button></div>
     <div class="msg" id="loginMsg"></div>
   </div>
+  <p style="text-align:center;margin-top:16px"><a href="index.html" style="color:var(--green);font-weight:700">← Back to website</a></p>
+</div>
 
-  <!-- PANEL -->
-  <div id="panel" hidden>
-    <div class="stats" id="statsRow"></div>
+<!-- PANEL -->
+<div class="shell" id="panel" hidden>
+  <aside class="side">
+    <div class="side-brand">
+      <img src="assets/logo.png" alt="" id="headLogo">
+      <div><b>Tallu Broq</b><span>KI AAWAZ · ADMIN</span></div>
+    </div>
+    <div class="side-label">NAVIGATION</div>
+    <nav>
+      <button class="nav-item on" data-tab="dashboard" type="button"><span class="dot">▦</span>Dashboard</button>
+      <button class="nav-item" data-tab="analytics" type="button"><span class="dot">📈</span>Analytics</button>
+      <button class="nav-item" data-tab="posts" type="button"><span class="dot">🗂</span>Posts</button>
+      <button class="nav-item" data-tab="new" type="button"><span class="dot">✍️</span>New Post</button>
+      <button class="nav-item" data-tab="admins" type="button"><span class="dot">👥</span>Admins</button>
+      <button class="nav-item" data-tab="settings" type="button"><span class="dot">⚙️</span>Settings</button>
+      <button class="nav-item" data-tab="subs" type="button"><span class="dot">📥</span>Submissions</button>
+    </nav>
+    <div class="side-user">
+      <img src="assets/logo.png" alt="">
+      <div><b id="sideUser">admin</b><span id="whoLine">Administrator</span></div>
+      <button id="logoutBtn" type="button">Logout</button>
+    </div>
+  </aside>
 
-    <div class="tabs">
-      <button class="tab-btn on" data-tab="posts" type="button">🗂 Posts</button>
-      <button class="tab-btn" data-tab="new" type="button">✍️ Nayi Post</button>
-      <button class="tab-btn" data-tab="admins" type="button">👥 Admins</button>
-      <button class="tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
-      <button class="tab-btn" data-tab="subs" type="button">📥 Submissions</button>
+  <main class="main">
+    <div class="main-head">
+      <h1 id="pageTitle">Dashboard</h1>
+      <span class="live"><i></i> LIVE · auto-refresh 30s</span>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="tab-page on" id="tab-dashboard">
+      <div class="stats" id="anaDash"></div>
+      <div class="stats" id="statsRow"></div>
+      <div class="grid2">
+        <div class="card">
+          <h2>🎯 Village Problems — Resolution</h2>
+          <div class="donut-wrap">
+            <div class="donut">
+              <svg width="132" height="132" viewBox="0 0 132 132">
+                <circle cx="66" cy="66" r="56" fill="none" stroke="#e6eee7" stroke-width="15"/>
+                <circle id="donutArc" cx="66" cy="66" r="56" fill="none" stroke="#2f9e5f" stroke-width="15" stroke-linecap="round" stroke-dasharray="0 352"/>
+              </svg>
+              <div class="pct"><b id="donutPct">—</b><span>RESOLVED</span></div>
+            </div>
+            <div class="legend" id="donutLegend"></div>
+          </div>
+        </div>
+        <div class="card cta-card">
+          <img src="assets/logo.png" alt="" id="ctaLogo">
+          <div>
+            <h2>Tallu Broq Ki Awaaz</h2>
+            <p>The voice of the village — news, problems, achievements and culture, live for the whole world.</p>
+          </div>
+          <a href="index.html" target="_blank">Open Website ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="tab-page" id="tab-analytics">
+      <div class="stats" id="anaStats"></div>
+      <div class="card">
+        <h2>📊 Last 7 Days — Page Views</h2>
+        <div class="chart" id="ana7"></div>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:10px">Visitor numbers for each day are written under the bars. Data is collected from today onwards.</p>
+      </div>
+      <div class="card">
+        <h2>🕒 Recent Visits</h2>
+        <div id="anaRecent"><p style="color:var(--muted)">Loading…</p></div>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:10px">“Online Now” counts visitors active in the last 5 minutes. This page refreshes itself every 30 seconds.</p>
+      </div>
     </div>
 
     <!-- POSTS -->
-    <div class="tab-page on" id="tab-posts">
+    <div class="tab-page" id="tab-posts">
       <div class="card">
-        <h2>🗂 Website Par Lagi Posts (AI System)</h2>
-        <div id="postsList"><p style="color:var(--muted)">Load ho raha hai...</p></div>
-        <p style="font-size:.82rem;color:var(--muted);margin-top:10px">Note: Website ki 3 asal blog posts (Road, Parha Likha, Saniha Skardu) file-based hain — wo yahan nahi aati, un mein tabdeeli ke liye Muse ko kahein.</p>
+        <h2>🗂 Posts on the Website (AI System)</h2>
+        <div id="postsList"><p style="color:var(--muted)">Loading…</p></div>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:10px">Note: The 3 original blog posts (Road Restoration, Educated Youth, Saniha Skardu) are file-based — they do not appear here. Ask Muse if those need changes.</p>
       </div>
     </div>
 
     <!-- NEW POST -->
     <div class="tab-page" id="tab-new">
       <div class="card">
-        <h2>✍️ Nayi Post Lagayein</h2>
-        <label for="aTitle">Unwaan / Title</label>
-        <input type="text" id="aTitle" maxlength="160" placeholder="Post ka unwaan">
-        <label for="aBody">Tafseel / Details</label>
-        <textarea id="aBody" rows="5" placeholder="Poori tafseel likhein..."></textarea>
+        <h2>✍️ Publish a New Post</h2>
+        <label for="aTitle">Title</label>
+        <input type="text" id="aTitle" maxlength="160" placeholder="Post title">
+        <label for="aBody">Details</label>
+        <textarea id="aBody" rows="5" placeholder="Write the full details…"></textarea>
         <div class="row">
           <div>
-            <label for="aCat">Qisam / Category</label>
+            <label for="aCat">Category</label>
             <select id="aCat">
-              <option value="news">Khabar (News)</option>
-              <option value="masayil">Masla (Problem)</option>
-              <option value="kamyabi">Kamyabi (Success)</option>
-              <option value="elaan">Elaan (Announcement)</option>
-              <option value="sakafat">Sakafat (Culture)</option>
+              <option value="news">News</option>
+              <option value="masayil">Problem (Masayil)</option>
+              <option value="kamyabi">Achievement (Kamyabi)</option>
+              <option value="elaan">Announcement (Elaan)</option>
+              <option value="sakafat">Culture (Sakafat)</option>
             </select>
           </div>
           <div>
-            <label for="aStatus">Masla Status (sirf Masayil ke liye)</label>
+            <label for="aStatus">Problem Status (only for Problems)</label>
             <select id="aStatus">
               <option value="report">Reported</option>
               <option value="progress">In Progress</option>
@@ -136,11 +258,11 @@
             </select>
           </div>
         </div>
-        <label for="aPhoto">Photo (ikhtiyari)</label>
+        <label for="aPhoto">Photo (optional)</label>
         <input type="file" id="aPhoto" accept="image/*">
         <img id="aPrev" class="photo-prev" alt="" hidden>
-        <label class="check"><input type="checkbox" id="aAi" checked> AI se post behtar banayein (English + Urdu blog + SEO)</label>
-        <div style="margin-top:16px"><button class="btn-gold" id="publishBtn" type="button">Publish Karein →</button></div>
+        <label class="check"><input type="checkbox" id="aAi" checked> Improve this post with AI (English + Urdu blog + SEO)</label>
+        <div style="margin-top:16px"><button class="btn-gold" id="publishBtn" type="button">Publish →</button></div>
         <div class="msg" id="pubMsg"></div>
       </div>
     </div>
@@ -148,33 +270,33 @@
     <!-- ADMINS -->
     <div class="tab-page" id="tab-admins">
       <div class="card">
-        <h2>👥 Admins — Kaun Login Kar Sakta Hai</h2>
-        <div id="adminsList"><p style="color:var(--muted)">Load ho raha hai...</p></div>
-        <label for="nUser">Naya Admin — Username</label>
+        <h2>👥 Admins — Who Can Log In</h2>
+        <div id="adminsList"><p style="color:var(--muted)">Loading…</p></div>
+        <label for="nUser">New Admin — Username</label>
         <input type="text" id="nUser" placeholder="e.g. ahmed" maxlength="20">
-        <label for="nPass">Naya Admin — Password</label>
-        <input type="password" id="nPass" placeholder="Kam az kam 6 haroof">
-        <div style="margin-top:14px"><button class="btn-gold" id="addAdminBtn" type="button">Admin Add Karein →</button></div>
+        <label for="nPass">New Admin — Password</label>
+        <input type="password" id="nPass" placeholder="At least 6 characters">
+        <div style="margin-top:14px"><button class="btn-gold" id="addAdminBtn" type="button">Add Admin →</button></div>
         <div class="msg" id="adminMsg"></div>
       </div>
       <div class="card">
-        <h2>🔑 Apna Password Badlein</h2>
-        <label for="curPw">Maujooda Password</label>
-        <input type="password" id="curPw" placeholder="Abhi wala password">
-        <label for="newPw">Naya Password</label>
-        <input type="password" id="newPw" placeholder="Kam az kam 6 haroof">
-        <div style="margin-top:14px"><button class="btn-gold" id="changePwBtn" type="button">Password Badlein →</button></div>
-        <div class="msg" id="pwMsg"></div>
+        <h2>👤 Change Your Username</h2>
+        <p style="font-size:.88rem;color:var(--muted)">Current username: <b id="curUserName">—</b></p>
+        <label for="newUserName">New Username</label>
+        <input type="text" id="newUserName" placeholder="e.g. yawar" maxlength="20">
+        <label for="renPw">Password (for confirmation)</label>
+        <input type="password" id="renPw" placeholder="Enter your password">
+        <div style="margin-top:14px"><button class="btn-gold" id="renameBtn" type="button">Change Username →</button></div>
+        <div class="msg" id="renameMsg"></div>
       </div>
       <div class="card">
-        <h2>👤 Apna Username Badlein</h2>
-        <p style="font-size:.88rem;color:var(--muted)">Maujooda username: <b id="curUserName">—</b></p>
-        <label for="newUserName">Naya Username</label>
-        <input type="text" id="newUserName" placeholder="e.g. yawar" maxlength="20">
-        <label for="renPw">Password (tasdeeq ke liye)</label>
-        <input type="password" id="renPw" placeholder="Apna password likhein">
-        <div style="margin-top:14px"><button class="btn-gold" id="renameBtn" type="button">Username Badlein →</button></div>
-        <div class="msg" id="renameMsg"></div>
+        <h2>🔑 Change Your Password</h2>
+        <label for="curPw">Current Password</label>
+        <input type="password" id="curPw" placeholder="Your current password">
+        <label for="newPw">New Password</label>
+        <input type="password" id="newPw" placeholder="At least 6 characters">
+        <div style="margin-top:14px"><button class="btn-gold" id="changePwBtn" type="button">Change Password →</button></div>
+        <div class="msg" id="pwMsg"></div>
       </div>
     </div>
 
@@ -182,19 +304,19 @@
     <div class="tab-page" id="tab-settings">
       <div class="card">
         <h2>🖼 Website Logo</h2>
-        <p style="font-size:.88rem;color:var(--muted)">Ye logo website ke header aur browser tab mein lagta hai. Naya logo lagane par purana khud replace ho jayega.</p>
+        <p style="font-size:.88rem;color:var(--muted)">This logo appears in the website header and the browser tab. Uploading a new logo replaces the old one automatically.</p>
         <img id="logoPrev" class="logo-prev" src="assets/logo.png" alt="Current logo">
-        <label for="logoFile">Naya Logo Chunein</label>
+        <label for="logoFile">Choose a New Logo</label>
         <input type="file" id="logoFile" accept="image/*">
         <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn-gold" id="logoBtn" type="button">Logo Lagayein →</button>
-          <button class="mini-btn" id="logoResetBtn" type="button">Default Logo Wapas</button>
+          <button class="btn-gold" id="logoBtn" type="button">Apply Logo →</button>
+          <button class="mini-btn" id="logoResetBtn" type="button">Restore Default Logo</button>
         </div>
         <div class="msg" id="logoMsg"></div>
       </div>
       <div class="card">
         <h2>🔗 Social Links</h2>
-        <p style="font-size:.88rem;color:var(--muted)">Jo link bharein ge, website ke footer mein us ka button aayega. Khaali chhorne par button nahi aayega.</p>
+        <p style="font-size:.88rem;color:var(--muted)">Fill in a link and its button will appear in the website footer. Leave a field empty to hide that button.</p>
         <label for="sFacebook">Facebook Page Link</label>
         <input type="url" id="sFacebook" placeholder="https://facebook.com/...">
         <label for="sYoutube">YouTube Channel Link</label>
@@ -203,7 +325,7 @@
         <input type="url" id="sTiktok" placeholder="https://tiktok.com/@...">
         <label for="sInstagram">Instagram Link</label>
         <input type="url" id="sInstagram" placeholder="https://instagram.com/...">
-        <div style="margin-top:14px"><button class="btn-gold" id="socialBtn" type="button">Links Save Karein →</button></div>
+        <div style="margin-top:14px"><button class="btn-gold" id="socialBtn" type="button">Save Links →</button></div>
         <div class="msg" id="socialMsg"></div>
       </div>
     </div>
@@ -211,13 +333,13 @@
     <!-- SUBMISSIONS -->
     <div class="tab-page" id="tab-subs">
       <div class="card">
-        <h2>📥 Submissions Record (Public Form Se)</h2>
-        <div id="logList"><p style="color:var(--muted)">Load ho raha hai...</p></div>
+        <h2>📥 Submissions Record (from the Public Form)</h2>
+        <div id="logList"><p style="color:var(--muted)">Loading…</p></div>
       </div>
     </div>
-  </div>
 
-  <p style="text-align:center"><a href="index.html" style="color:var(--green);font-weight:700">← Website par wapas</a></p>
+    <p style="text-align:center;margin-top:6px"><a href="index.html" style="color:var(--green);font-weight:700">← Back to website</a></p>
+  </main>
 </div>
 
 <script>
@@ -228,7 +350,7 @@ const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "
 let token = sessionStorage.getItem("tbka-admin") || "";
 let meUser = sessionStorage.getItem("tbka-user") || "";
 let photoData = null, logoData = null;
-let POSTS = [], LOG = [];
+let POSTS = [], LOG = [], ANA = null, anaTimer = null;
 
 function msg(el, kind, text) { el.className = "msg " + kind; el.textContent = text; }
 
@@ -249,8 +371,8 @@ async function api(payload) {
 function forceRelogin() {
   token = ""; meUser = "";
   sessionStorage.removeItem("tbka-admin"); sessionStorage.removeItem("tbka-user");
-  $("panel").hidden = true; $("loginCard").hidden = false; $("logoutBtn").hidden = true;
-  msg($("loginMsg"), "bad", "Session purana tha jo naye system se match nahi karta — dobara login karein (username: admin)");
+  $("panel").hidden = true; $("loginCard").hidden = false;
+  msg($("loginMsg"), "bad", "Your session was from the old system and no longer matches — please log in again (username: admin)");
 }
 
 function compressImage(file) {
@@ -291,16 +413,20 @@ $("logoFile").addEventListener("change", async () => {
   catch (e) { logoData = null; }
 });
 
-/* ----- Tabs ----- */
-document.querySelectorAll(".tab-btn").forEach(b => b.addEventListener("click", () => {
-  document.querySelectorAll(".tab-btn").forEach(x => x.classList.toggle("on", x === b));
-  document.querySelectorAll(".tab-page").forEach(p => p.classList.toggle("on", p.id === "tab-" + b.getAttribute("data-tab")));
+/* ----- Navigation (sidebar) ----- */
+const TITLES = { dashboard: "Dashboard", analytics: "Analytics", posts: "Posts", new: "New Post", admins: "Admins", settings: "Settings", subs: "Submissions" };
+document.querySelectorAll(".nav-item").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".nav-item").forEach(x => x.classList.toggle("on", x === b));
+  const t = b.getAttribute("data-tab");
+  document.querySelectorAll(".tab-page").forEach(p => p.classList.toggle("on", p.id === "tab-" + t));
+  $("pageTitle").textContent = TITLES[t] || "Dashboard";
+  if (t === "analytics") loadAnalytics();
 }));
 
 /* ----- Login / logout ----- */
 async function doLogin() {
   const m = $("loginMsg");
-  msg(m, "wait", "Check ho raha hai...");
+  msg(m, "wait", "Checking…");
   try {
     const j = await api({ action: "login", user: $("lu").value.trim(), password: $("pw").value });
     if (j.ok) {
@@ -308,23 +434,25 @@ async function doLogin() {
       sessionStorage.setItem("tbka-admin", token);
       sessionStorage.setItem("tbka-user", meUser);
       showPanel();
-    } else msg(m, "bad", "❌ " + (j.error || "Login nahi hua"));
-  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+    } else msg(m, "bad", "❌ " + (j.error || "Login failed"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
 }
 $("loginBtn").addEventListener("click", doLogin);
 $("pw").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
 $("logoutBtn").addEventListener("click", () => {
   token = ""; meUser = "";
   sessionStorage.removeItem("tbka-admin"); sessionStorage.removeItem("tbka-user");
-  $("panel").hidden = true; $("loginCard").hidden = false; $("logoutBtn").hidden = true;
+  if (anaTimer) { clearInterval(anaTimer); anaTimer = null; }
+  $("panel").hidden = true; $("loginCard").hidden = false;
 });
 
 function showPanel() {
   $("loginCard").hidden = true;
   $("panel").hidden = false;
-  $("logoutBtn").hidden = false;
-  $("whoLine").textContent = "Login: " + meUser + " — posting, edit, delete, admins, logo, social links aur password sab yahan se control karein.";
+  $("sideUser").textContent = meUser;
+  $("whoLine").textContent = "Administrator";
   refresh();
+  if (!anaTimer) anaTimer = setInterval(() => { if (token && !$("panel").hidden) loadAnalytics(); }, 30000);
 }
 
 async function refresh() {
@@ -332,31 +460,98 @@ async function refresh() {
     const j = await api({ action: "list" });
     if (j.ok) { POSTS = j.posts || []; LOG = j.log || []; renderStats(); renderPosts(); renderLog(); }
     else { forceRelogin(); return; }
-  } catch (e) { $("postsList").innerHTML = "<p>Server se rabta nahi ho saka — page dobara khol kar koshish karein.</p>"; return; }
+  } catch (e) { $("postsList").innerHTML = "<p>Could not reach the server — reopen the page and try again.</p>"; return; }
+  loadAnalytics();
   loadAdmins();
   loadSettings();
 }
 
-/* ----- Stats ----- */
+/* ----- Dashboard: post stats + donut ----- */
 function renderStats() {
   const by = c => POSTS.filter(p => p.cat === c).length;
   const ms = POSTS.filter(p => p.cat === "masayil");
   const cards = [
-    ["Kul Posts", POSTS.length, ""],
-    ["Khabrein", by("news"), ""],
-    ["Masayil", ms.length, ""],
-    ["Report Hue", ms.filter(p => p.status === "report").length, "red"],
-    ["Kaam Jari", ms.filter(p => p.status === "progress").length, ""],
-    ["Hal Hue", ms.filter(p => p.status === "done").length, "green"],
-    ["Kamyabi", by("kamyabi"), ""],
-    ["Sakafat", by("sakafat"), ""],
-    ["Elaan", by("elaan"), ""],
+    ["Total Posts", POSTS.length, ""],
+    ["News", by("news"), ""],
+    ["Problems", ms.length, ""],
+    ["Achievements", by("kamyabi"), ""],
+    ["Culture", by("sakafat"), ""],
+    ["Announcements", by("elaan"), ""],
     ["Submissions", LOG.length, ""],
-    ["Publish Hui", LOG.filter(l => l.result === "published").length, "green"],
-    ["Decline Hui", LOG.filter(l => l.result === "declined").length, "red"]
+    ["Published", LOG.filter(l => l.result === "published").length, ""],
+    ["Declined", LOG.filter(l => l.result === "declined").length, ""]
   ];
   $("statsRow").innerHTML = cards.map(c =>
-    `<div class="stat ${c[2]}"><b>${c[1]}</b><span>${c[0]}</span></div>`).join("");
+    `<div class="stat"><span>${c[0]}</span><b>${c[1]}</b></div>`).join("");
+  const rep = ms.filter(p => p.status === "report").length;
+  const pro = ms.filter(p => p.status === "progress").length;
+  const don = ms.filter(p => p.status === "done").length;
+  const pct = ms.length ? Math.round(don / ms.length * 100) : 0;
+  $("donutPct").textContent = ms.length ? pct + "%" : "—";
+  $("donutArc").setAttribute("stroke-dasharray", (352 * pct / 100) + " 352");
+  $("donutLegend").innerHTML =
+    `<div><i style="background:#b3261e"></i>Reported — <b>${rep}</b></div>` +
+    `<div><i style="background:#e0a800"></i>In Progress — <b>${pro}</b></div>` +
+    `<div><i style="background:#2f9e5f"></i>Resolved — <b>${don}</b></div>` +
+    `<div style="color:var(--muted);font-size:.8rem">Total problems: ${ms.length}</div>`;
+}
+
+/* ----- Analytics ----- */
+function miniBars(vals) {
+  const max = Math.max(...vals, 1);
+  return `<div class="bars">${vals.map(v => `<i class="${v ? "" : "dim"}" style="height:${Math.max(10, v / max * 100)}%"></i>`).join("")}</div>`;
+}
+function pageName(p) {
+  if (!p || p === "/" || p.includes("#/home")) return "Home";
+  if (p.includes("#/post/")) return "Post page";
+  if (p.includes("#/news")) return "News";
+  if (p.includes("#/masayil")) return "Problems";
+  if (p.includes("#/kamyabi")) return "Achievements";
+  if (p.includes("#/sakafat")) return "Culture";
+  if (p.includes("#/elaan")) return "Announcements";
+  if (p.includes("saniha")) return "Blog: Saniha Skardu";
+  if (p.includes("parha-likha")) return "Blog: Educated Youth";
+  if (p.includes("milyar-road")) return "Blog: Road Restoration";
+  if (p.includes("/posts/")) return "Blog post";
+  return p.replace("#/", "").replace("/", "") || "Home";
+}
+function ago(ts) {
+  const s = Math.max(0, Math.floor((Date.now() - ts) / 1000));
+  if (s < 60) return "just now";
+  const m = Math.floor(s / 60);
+  if (m < 60) return m + " min ago";
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + " hr ago";
+  return Math.floor(h / 24) + " d ago";
+}
+async function loadAnalytics() {
+  try {
+    const j = await api({ action: "analytics" });
+    if (!j.ok) return;
+    ANA = j.analytics;
+    const a = ANA;
+    const week = a.last7.map(d => d.views);
+    $("anaDash").innerHTML =
+      `<div class="stat hero"><span>🟢 Online Now</span><b>${a.online}</b><div class="sub">active in the last 5 minutes</div></div>` +
+      `<div class="stat"><span>Visitors Today</span><b>${a.today.visitors}</b><div class="sub">yesterday: ${a.yesterday.visitors}</div></div>` +
+      `<div class="stat"><span>Views Today</span><b>${a.today.views}</b>${miniBars(week)}</div>` +
+      `<div class="stat"><span>Total Visitors</span><b>${a.totalVisitors}</b><div class="sub">total views: ${a.totalViews}</div></div>`;
+    $("anaStats").innerHTML =
+      `<div class="stat hero"><span>🟢 Online Now</span><b>${a.online}</b><div class="sub">active in the last 5 minutes</div></div>` +
+      `<div class="stat"><span>Visitors Today</span><b>${a.today.visitors}</b><div class="sub">views today: ${a.today.views}</div></div>` +
+      `<div class="stat"><span>Visitors Yesterday</span><b>${a.yesterday.visitors}</b><div class="sub">views: ${a.yesterday.views}</div></div>` +
+      `<div class="stat"><span>Total Visitors</span><b>${a.totalVisitors}</b><div class="sub">all time</div></div>` +
+      `<div class="stat"><span>Total Views</span><b>${a.totalViews}</b><div class="sub">all time</div></div>`;
+    const max = Math.max(...week, 1);
+    $("ana7").innerHTML = a.last7.map(d => {
+      const dt = new Date(d.day + "T12:00:00");
+      const lbl = dt.toLocaleDateString("en-GB", { weekday: "short" }) + "<br>" + dt.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+      return `<div class="col"><div class="v">${d.views}</div><div class="bar" style="height:${Math.max(3, d.views / max * 100)}%"></div><div class="d">${lbl}<br>👥 ${d.visitors}</div></div>`;
+    }).join("");
+    $("anaRecent").innerHTML = a.recent.length ? a.recent.map(e =>
+      `<div class="visit"><b>${esc(pageName(e.page))}</b><span>${ago(e.ts)}</span></div>`).join("")
+      : "<p style='color:var(--muted)'>No visits recorded yet — share the website link and visits will appear here live.</p>";
+  } catch (e) { /* analytics is best-effort */ }
 }
 
 /* ----- Posts: list + edit + delete + status ----- */
@@ -366,7 +561,7 @@ function renderPosts() {
       <h3>${esc(p.titleEn)}</h3>
       <div class="meta">${esc(p.cat)} · ${esc(p.date)} · ${esc(p.source || "")} · by ${esc(p.name || "")}</div>
       <div class="acts">
-        <a class="mini-btn" href="index.html#/post/${esc(p.id)}" target="_blank">Dekhein</a>
+        <a class="mini-btn" href="index.html#/post/${esc(p.id)}" target="_blank">View</a>
         <button class="mini-btn" data-edit="${esc(p.id)}">✏️ Edit</button>
         ${p.cat === "masayil" ? ["report", "progress", "done"].map(s =>
           `<button class="mini-btn ${p.status === s ? "on" : ""}" data-status="${s}" data-id="${esc(p.id)}">${s}</button>`).join("") : ""}
@@ -377,27 +572,27 @@ function renderPosts() {
         <input type="text" data-f="titleEn" value="${esc(p.titleEn)}">
         <label>Title (Urdu)</label>
         <input type="text" class="ur-input" data-f="titleUr" value="${esc(p.titleUr || "")}">
-        <label>Tafseel (English)</label>
+        <label>Details (English)</label>
         <textarea rows="4" data-f="bodyEn">${esc(p.bodyEn || "")}</textarea>
-        <label>Tafseel (Urdu)</label>
+        <label>Details (Urdu)</label>
         <textarea rows="4" class="ur-input" data-f="bodyUr">${esc(p.bodyUr || "")}</textarea>
         <div class="row">
           <div><label>Category</label>
             <select data-f="cat">${["news", "masayil", "kamyabi", "elaan", "sakafat"].map(c =>
               `<option value="${c}" ${p.cat === c ? "selected" : ""}>${c}</option>`).join("")}</select></div>
-          <div><label>Post Karne Wala (naam)</label>
+          <div><label>Posted by (name)</label>
             <input type="text" data-f="name" value="${esc(p.name || "")}"></div>
         </div>
         <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn-gold" data-save="${esc(p.id)}" type="button">Save Karein →</button>
+          <button class="btn-gold" data-save="${esc(p.id)}" type="button">Save →</button>
           <button class="mini-btn" data-canceledit="${esc(p.id)}" type="button">Cancel</button>
         </div>
         <div class="msg" id="editMsg-${esc(p.id)}"></div>
       </div>
-    </div>`).join("") : "<p style='color:var(--muted)'>Abhi AI system se koi post nahi lagi.</p>";
+    </div>`).join("") : "<p style='color:var(--muted)'>No posts have been published through the AI system yet.</p>";
 
   document.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", async () => {
-    if (!confirm("Ye post delete kar dein? Photo bhi delete ho jayegi.")) return;
+    if (!confirm("Delete this post? Its photo will also be deleted.")) return;
     await api({ action: "delete", id: b.getAttribute("data-del") });
     refresh();
   }));
@@ -419,12 +614,12 @@ function renderPosts() {
     const payload = { action: "edit", id };
     box.querySelectorAll("[data-f]").forEach(inp => { payload[inp.getAttribute("data-f")] = inp.value; });
     const m = $("editMsg-" + id);
-    msg(m, "wait", "Save ho raha hai...");
+    msg(m, "wait", "Saving…");
     try {
       const j = await api(payload);
-      if (j.ok) { msg(m, "ok", "✅ Post update ho gayi"); refresh(); }
-      else msg(m, "bad", "❌ " + (j.error || "Save nahi hui"));
-    } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+      if (j.ok) { msg(m, "ok", "✅ Post updated"); refresh(); }
+      else msg(m, "bad", "❌ " + (j.error || "Could not save"));
+    } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
   }));
 }
 
@@ -435,7 +630,7 @@ function renderLog() {
       <strong>${esc(l.title || "")}</strong> — ${esc(l.name || "")} · ${esc(l.cat || "")}
       ${l.reasonEn ? `<br><span style="color:#7a1d1d">${esc(l.reasonEn)}</span>` : ""}
       <br><span style="color:var(--muted)">${new Date(l.ts).toLocaleString("en-GB")}</span>
-    </div>`).join("") : "<p style='color:var(--muted)'>Abhi koi submission nahi aayi.</p>";
+    </div>`).join("") : "<p style='color:var(--muted)'>No submissions yet.</p>";
 }
 
 /* ----- New post ----- */
@@ -450,18 +645,18 @@ $("publishBtn").addEventListener("click", async () => {
     useAi: $("aAi").checked,
     image: photoData || undefined
   };
-  if (payload.title.length < 4 || payload.desc.length < 10) { msg(m, "bad", "❌ Title aur tafseel zaroor likhein"); return; }
-  msg(m, "wait", "⏳ Publish ho raha hai — AI on hai to 30-60 second lag sakte hain, page band na karein...");
+  if (payload.title.length < 4 || payload.desc.length < 10) { msg(m, "bad", "❌ Please write a title and details"); return; }
+  msg(m, "wait", "⏳ Publishing — with AI on it usually takes 5–15 seconds. Please don't close the page…");
   $("publishBtn").disabled = true;
   try {
     const j = await api(payload);
     if (j.ok) {
-      msg(m, "ok", "✅ Post publish ho gayi: “" + (j.post.titleEn || payload.title) + "” — Posts tab mein dekh sakte hain.");
+      msg(m, "ok", "✅ Post published: “" + (j.post.titleEn || payload.title) + "” — see it in the Posts tab.");
       $("aTitle").value = ""; $("aBody").value = ""; $("aPhoto").value = "";
       photoData = null; $("aPrev").hidden = true;
       refresh();
-    } else msg(m, "bad", "❌ " + (j.error || "Publish nahi hui"));
-  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka — internet check karke dobara koshish karein"); }
+    } else msg(m, "bad", "❌ " + (j.error || "Could not publish"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server — check your internet and try again"); }
   $("publishBtn").disabled = false;
 });
 
@@ -473,15 +668,15 @@ async function loadAdmins() {
     if ($("curUserName")) $("curUserName").textContent = j.me;
     $("adminsList").innerHTML = j.admins.map(a => `
       <div class="arow"><b>${esc(a.user)}</b>
-        ${a.user === j.me ? '<span class="you">Aap</span>' : ""}
+        ${a.user === j.me ? '<span class="you">You</span>' : ""}
         ${a.user !== j.me ? `<button class="mini-btn danger" data-deladmin="${esc(a.user)}" style="margin-left:auto">🗑 Delete</button>` : ""}
       </div>`).join("");
     document.querySelectorAll("[data-deladmin]").forEach(b => b.addEventListener("click", async () => {
-      if (!confirm("Admin '" + b.getAttribute("data-deladmin") + "' delete kar dein?")) return;
+      if (!confirm("Delete admin '" + b.getAttribute("data-deladmin") + "'?")) return;
       const r = await api({ action: "removeAdmin", user: b.getAttribute("data-deladmin") });
       const m = $("adminMsg");
-      if (r.ok) { msg(m, "ok", "✅ Admin delete ho gaya"); loadAdmins(); }
-      else msg(m, "bad", "❌ " + (r.error || "Delete nahi hua"));
+      if (r.ok) { msg(m, "ok", "✅ Admin deleted"); loadAdmins(); }
+      else msg(m, "bad", "❌ " + (r.error || "Could not delete"));
     }));
   } catch (e) { /* ignore */ }
 }
@@ -489,9 +684,9 @@ $("addAdminBtn").addEventListener("click", async () => {
   const m = $("adminMsg");
   try {
     const j = await api({ action: "addAdmin", user: $("nUser").value.trim(), password: $("nPass").value });
-    if (j.ok) { msg(m, "ok", "✅ Naya admin ban gaya — ab wo apne username/password se login kar sakta hai"); $("nUser").value = ""; $("nPass").value = ""; loadAdmins(); }
-    else msg(m, "bad", "❌ " + (j.error || "Admin nahi bana"));
-  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+    if (j.ok) { msg(m, "ok", "✅ New admin created — they can now log in with their own username and password"); $("nUser").value = ""; $("nPass").value = ""; loadAdmins(); }
+    else msg(m, "bad", "❌ " + (j.error || "Could not create admin"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
 });
 $("renameBtn").addEventListener("click", async () => {
   const m = $("renameMsg");
@@ -501,12 +696,12 @@ $("renameBtn").addEventListener("click", async () => {
       token = j.token; meUser = j.user;
       sessionStorage.setItem("tbka-admin", token);
       sessionStorage.setItem("tbka-user", meUser);
-      $("whoLine").textContent = "Login: " + meUser + " — posting, edit, delete, admins, logo, social links aur password sab yahan se control karein.";
-      msg(m, "ok", "✅ Username badal gaya — agli dafa '" + meUser + "' se login hoga");
+      $("sideUser").textContent = meUser;
+      msg(m, "ok", "✅ Username changed — next time log in as '" + meUser + "'");
       $("newUserName").value = ""; $("renPw").value = "";
       loadAdmins();
-    } else msg(m, "bad", "❌ " + (j.error || "Username nahi badla"));
-  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+    } else msg(m, "bad", "❌ " + (j.error || "Username not changed"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
 });
 $("changePwBtn").addEventListener("click", async () => {
   const m = $("pwMsg");
@@ -515,10 +710,10 @@ $("changePwBtn").addEventListener("click", async () => {
     if (j.ok) {
       token = j.token;
       sessionStorage.setItem("tbka-admin", token);
-      msg(m, "ok", "✅ Password badal gaya — agli dafa naye password se login hoga");
+      msg(m, "ok", "✅ Password changed — next time log in with the new password");
       $("curPw").value = ""; $("newPw").value = "";
-    } else msg(m, "bad", "❌ " + (j.error || "Password nahi badla"));
-  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+    } else msg(m, "bad", "❌ " + (j.error || "Password not changed"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
 });
 
 /* ----- Settings: logo + socials ----- */
@@ -531,6 +726,7 @@ async function loadSettings() {
       const src = API_BASE + "/api/img?id=logo&v=" + Math.floor(Date.now() / 3600000);
       $("logoPrev").src = src;
       $("headLogo").src = src;
+      $("ctaLogo").src = src;
     }
     const sc = s.socials || {};
     $("sFacebook").value = sc.facebook || "";
@@ -541,21 +737,21 @@ async function loadSettings() {
 }
 $("logoBtn").addEventListener("click", async () => {
   const m = $("logoMsg");
-  if (!logoData) { msg(m, "bad", "❌ Pehle naya logo chunein (file select karein)"); return; }
-  msg(m, "wait", "⏳ Logo lag raha hai...");
+  if (!logoData) { msg(m, "bad", "❌ First choose a new logo file"); return; }
+  msg(m, "wait", "⏳ Applying logo…");
   try {
     const j = await api({ action: "setLogo", image: logoData });
-    if (j.ok) { msg(m, "ok", "✅ Naya logo lag gaya — website par kuch dair mein nazar aayega (cache ki wajah se 1 ghanta tak lag sakta hai)"); logoData = null; $("logoFile").value = ""; loadSettings(); }
-    else msg(m, "bad", "❌ " + (j.error || "Logo nahi laga"));
-  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+    if (j.ok) { msg(m, "ok", "✅ New logo applied — it may take up to an hour to appear everywhere because of caching"); logoData = null; $("logoFile").value = ""; loadSettings(); }
+    else msg(m, "bad", "❌ " + (j.error || "Logo not applied"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
 });
 $("logoResetBtn").addEventListener("click", async () => {
   const m = $("logoMsg");
   try {
     const j = await api({ action: "removeLogo" });
-    if (j.ok) { msg(m, "ok", "✅ Default (asal wala) logo wapas lag gaya"); $("logoPrev").src = "assets/logo.png"; $("headLogo").src = "assets/logo.png"; }
-    else msg(m, "bad", "❌ " + (j.error || "Reset nahi hua"));
-  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+    if (j.ok) { msg(m, "ok", "✅ Default (original) logo restored"); $("logoPrev").src = "assets/logo.png"; $("headLogo").src = "assets/logo.png"; $("ctaLogo").src = "assets/logo.png"; }
+    else msg(m, "bad", "❌ " + (j.error || "Could not reset"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
 });
 $("socialBtn").addEventListener("click", async () => {
   const m = $("socialMsg");
@@ -566,9 +762,9 @@ $("socialBtn").addEventListener("click", async () => {
       tiktok: $("sTiktok").value.trim(),
       instagram: $("sInstagram").value.trim()
     }});
-    if (j.ok) msg(m, "ok", "✅ Social links save ho gaye — website ke footer mein button aa jayenge");
-    else msg(m, "bad", "❌ " + (j.error || "Save nahi hue"));
-  } catch (e) { msg(m, "bad", "❌ Server se rabta nahi ho saka"); }
+    if (j.ok) msg(m, "ok", "✅ Social links saved — the buttons will appear in the website footer");
+    else msg(m, "bad", "❌ " + (j.error || "Could not save"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
 });
 
 if (token) showPanel();

@@ -4,6 +4,23 @@
 const API_BASE = "https://tallu-broq-api.vercel.app";
 let DYN = []; // posts published through the AI system (API)
 
+/* Visitor analytics — counts only, no personal data (shown in the admin panel). */
+let VID = localStorage.getItem("tbka-vid");
+if (!VID) {
+  VID = "v" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+  localStorage.setItem("tbka-vid", VID);
+}
+function track(page) {
+  try {
+    const body = JSON.stringify({ v: VID, page });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(API_BASE + "/api/track", new Blob([body], { type: "text/plain" }));
+    } else {
+      fetch(API_BASE + "/api/track", { method: "POST", body, keepalive: true }).catch(() => {});
+    }
+  } catch (e) { /* analytics must never break the site */ }
+}
+
 const I18N = {
   en: {
     nav_home: "Home", nav_news: "Khabrein", nav_masayil: "Masayil",
@@ -358,6 +375,7 @@ function currentRoute() {
 }
 
 function render() {
+  track(location.hash || "#/home");
   const { name, arg } = currentRoute();
   let html, nav = "";
   if (name === "post" && arg) { html = postView(arg); }

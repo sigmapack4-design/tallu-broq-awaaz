@@ -75,5 +75,9 @@
 <footer class="post-foot">
   <p><strong>Tallu Broq Ki Awaaz</strong> — <span class="ur">تلو بروق کی آواز</span> · The voice of our village, for the whole world.</p>
 </footer>
+<script>
+/* Visitor analytics — counts only, no personal data (shown in the admin panel). */
+(function(){try{var v=localStorage.getItem("tbka-vid");if(!v){v="v"+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("tbka-vid",v);}var body=JSON.stringify({v:v,page:location.pathname});if(navigator.sendBeacon)navigator.sendBeacon("https://tallu-broq-api.vercel.app/api/track",new Blob([body],{type:"text/plain"}));}catch(e){}})();
+</script>
 </body>
 </html>
