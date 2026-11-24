@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 <style>
   body{background:#e9efe9}
   /* ---------- login ---------- */
@@ -159,6 +159,7 @@
       <button class="nav-item on" data-tab="dashboard" type="button"><span class="dot">▦</span>Dashboard</button>
       <button class="nav-item" data-tab="analytics" type="button"><span class="dot">📈</span>Analytics</button>
       <button class="nav-item" data-tab="posts" type="button"><span class="dot">🗂</span>Posts</button>
+      <button class="nav-item" data-tab="videos" type="button"><span class="dot">🎬</span>Videos</button>
       <button class="nav-item" data-tab="new" type="button"><span class="dot">✍️</span>New Post</button>
       <button class="nav-item" data-tab="admins" type="button"><span class="dot">👥</span>Admins</button>
       <button class="nav-item" data-tab="settings" type="button"><span class="dot">⚙️</span>Settings</button>
@@ -227,6 +228,24 @@
         <h2>🗂 Posts on the Website (AI System)</h2>
         <div id="postsList"><p style="color:var(--muted)">Loading…</p></div>
         <p style="font-size:.82rem;color:var(--muted);margin-top:10px">Note: The 3 original blog posts (Road Restoration, Educated Youth, Saniha Skardu) are file-based — they do not appear here. Ask Muse if those need changes.</p>
+      </div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div class="tab-page" id="tab-videos">
+      <div class="card">
+        <h2>🎬 Add a Video</h2>
+        <p style="font-size:.88rem;color:var(--muted)">Paste a YouTube video link (or a direct .mp4 link). The video will appear in the website's Videos section with Like, Comment and Share.</p>
+        <label for="vTitle">Video Title</label>
+        <input type="text" id="vTitle" maxlength="140" placeholder="e.g. Tallu Broq — Village Tour">
+        <label for="vUrl">YouTube / MP4 Link</label>
+        <input type="url" id="vUrl" placeholder="https://www.youtube.com/watch?v=...">
+        <div style="margin-top:14px"><button class="btn-gold" id="addVideoBtn" type="button">Add Video →</button></div>
+        <div class="msg" id="videoMsg"></div>
+      </div>
+      <div class="card">
+        <h2>🎞 Videos on the Website</h2>
+        <div id="videosList"><p style="color:var(--muted)">Loading…</p></div>
       </div>
     </div>
 
@@ -414,13 +433,14 @@ $("logoFile").addEventListener("change", async () => {
 });
 
 /* ----- Navigation (sidebar) ----- */
-const TITLES = { dashboard: "Dashboard", analytics: "Analytics", posts: "Posts", new: "New Post", admins: "Admins", settings: "Settings", subs: "Submissions" };
+const TITLES = { dashboard: "Dashboard", analytics: "Analytics", posts: "Posts", videos: "Videos", new: "New Post", admins: "Admins", settings: "Settings", subs: "Submissions" };
 document.querySelectorAll(".nav-item").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll(".nav-item").forEach(x => x.classList.toggle("on", x === b));
   const t = b.getAttribute("data-tab");
   document.querySelectorAll(".tab-page").forEach(p => p.classList.toggle("on", p.id === "tab-" + t));
   $("pageTitle").textContent = TITLES[t] || "Dashboard";
   if (t === "analytics") loadAnalytics();
+  if (t === "videos") loadVideos();
 }));
 
 /* ----- Login / logout ----- */
@@ -713,6 +733,61 @@ $("changePwBtn").addEventListener("click", async () => {
       msg(m, "ok", "✅ Password changed — next time log in with the new password");
       $("curPw").value = ""; $("newPw").value = "";
     } else msg(m, "bad", "❌ " + (j.error || "Password not changed"));
+  } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
+});
+
+/* ----- Videos ----- */
+let VIDEOS = [];
+function videoThumb(v) {
+  return v.type === "youtube"
+    ? `<img src="https://i.ytimg.com/vi/${esc(v.yt)}/hqdefault.jpg" alt="" style="width:110px;height:70px;object-fit:cover;border-radius:10px">`
+    : `<div style="width:110px;height:70px;border-radius:10px;background:#0a3d31;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem">🎬</div>`;
+}
+async function loadVideos() {
+  try {
+    const j = await api({ action: "videos" });
+    if (!j.ok) return;
+    VIDEOS = j.videos || [];
+    $("videosList").innerHTML = VIDEOS.length ? VIDEOS.map(v => `
+      <div class="apost">
+        <div style="display:flex;gap:13px;align-items:center;flex-wrap:wrap">
+          ${videoThumb(v)}
+          <div style="flex:1;min-width:170px">
+            <h3>${esc(v.title)}</h3>
+            <div class="meta">${v.type === "youtube" ? "YouTube" : "MP4 file"} · ❤️ ${v.likes || 0} likes · 💬 ${(v.comments || []).length} comments · ${new Date(v.ts).toLocaleDateString("en-GB")}</div>
+          </div>
+          <a class="mini-btn" href="index.html#/video/${esc(v.id)}" target="_blank">View</a>
+          <button class="mini-btn danger" data-delvideo="${esc(v.id)}">🗑 Delete</button>
+        </div>
+        ${(v.comments || []).length ? `<div style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px">` +
+          v.comments.map(c => `
+            <div class="visit"><b>${esc(c.name)}</b><span style="margin:0">${esc(c.text)}</span>
+              <button class="mini-btn danger" data-delcomment="${esc(v.id)}|${esc(c.id)}" style="margin-left:auto;padding:4px 10px">Delete</button>
+            </div>`).join("") + `</div>` : ""}
+      </div>`).join("") : "<p style='color:var(--muted)'>No videos yet — add the first one above.</p>";
+    document.querySelectorAll("[data-delvideo]").forEach(b => b.addEventListener("click", async () => {
+      if (!confirm("Delete this video from the website?")) return;
+      await api({ action: "deleteVideo", id: b.getAttribute("data-delvideo") });
+      loadVideos();
+    }));
+    document.querySelectorAll("[data-delcomment]").forEach(b => b.addEventListener("click", async () => {
+      if (!confirm("Delete this comment?")) return;
+      const parts = b.getAttribute("data-delcomment").split("|");
+      await api({ action: "deleteComment", videoId: parts[0], commentId: parts[1] });
+      loadVideos();
+    }));
+  } catch (e) { /* ignore */ }
+}
+$("addVideoBtn").addEventListener("click", async () => {
+  const m = $("videoMsg");
+  const title = $("vTitle").value.trim();
+  const url = $("vUrl").value.trim();
+  if (title.length < 3 || !url) { msg(m, "bad", "❌ Please write a title and paste the video link"); return; }
+  msg(m, "wait", "⏳ Adding video…");
+  try {
+    const j = await api({ action: "addVideo", title, url });
+    if (j.ok) { msg(m, "ok", "✅ Video added — it is now live in the website's Videos section"); $("vTitle").value = ""; $("vUrl").value = ""; loadVideos(); }
+    else msg(m, "bad", "❌ " + (j.error || "Could not add the video"));
   } catch (e) { msg(m, "bad", "❌ Could not reach the server"); }
 });
 

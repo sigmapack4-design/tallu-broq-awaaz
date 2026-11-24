@@ -26,7 +26,7 @@ const I18N = {
     nav_home: "Home", nav_news: "Khabrein", nav_masayil: "Masayil",
     nav_gaon: "Gaon", nav_kamyabi: "Kamyabi", nav_kaam: "Kaam Kaaj",
     nav_elaan: "Elaan Board", nav_rabta: "Rabta Directory",
-    nav_sakafat: "Sakafat", nav_gallery: "Gallery",
+    nav_sakafat: "Sakafat", nav_gallery: "Gallery", nav_videos: "Videos",
     cta_submit: "＋ Add Post",
     footer_tag: "Gaon ki khabrein, masayil, kamyabi aur sakafat — poori duniya ke liye."
   },
@@ -34,7 +34,7 @@ const I18N = {
     nav_home: "ہوم", nav_news: "خبریں", nav_masayil: "مسائل",
     nav_gaon: "گاؤں", nav_kamyabi: "کامیابی", nav_kaam: "کام کاج",
     nav_elaan: "اعلان بورڈ", nav_rabta: "رابطہ ڈائریکٹری",
-    nav_sakafat: "ثقافت", nav_gallery: "گیلری",
+    nav_sakafat: "ثقافت", nav_gallery: "گیلری", nav_videos: "ویڈیوز",
     cta_submit: "＋ پوسٹ کریں",
     footer_tag: "گاؤں کی خبریں، مسائل، کامیابی اور ثقافت — پوری دنیا کے لیے۔"
   }
@@ -126,6 +126,12 @@ function homeView() {
 
   <div class="sec-title reveal"><h2>Latest Posts<span class="ur">تازہ پوسٹس</span></h2></div>
   <div class="posts">${latest.map(postCard).join("")}</div>
+
+  ${VIDS.length ? `
+  <div class="sec-title reveal"><h2>Videos<span class="ur">ویڈیوز</span></h2></div>
+  <p class="sec-sub reveal">Gaon ki videos — dekhein, like karein aur apni raaye dein.</p>
+  <div class="vgrid">${VIDS.slice(0, 3).map(videoCard).join("")}</div>
+  <p style="text-align:center;margin-top:14px"><a class="mini-link" href="#/videos" style="color:var(--green);font-weight:700">Saari Videos Dekhein →</a></p>` : ""}
 
   <div class="sec-title reveal"><h2>Photo Gallery<span class="ur">گیلری</span></h2></div>
   <div class="gallery">${GALLERY.map(galleryItem).join("")}</div>`;
@@ -246,6 +252,114 @@ function postView(id) {
   </article>`;
 }
 
+/* ----- Videos (managed from the admin panel, stored via the API) ----- */
+let VIDS = [];
+const likedSet = () => { try { return new Set(JSON.parse(localStorage.getItem("tbka-liked") || "[]")); } catch (e) { return new Set(); } };
+const saveLiked = s => localStorage.setItem("tbka-liked", JSON.stringify([...s]));
+function videoCard(v) {
+  const th = v.type === "youtube" ? `https://i.ytimg.com/vi/${esc(v.yt)}/hqdefault.jpg` : "";
+  return `<a class="vcard reveal" href="#/video/${esc(v.id)}">
+    <span class="vthumb">${th ? `<img src="${th}" alt="" loading="lazy">` : `<span class="vthumb-file">🎬</span>`}<span class="vplay">▶</span></span>
+    <span class="vmeta"><b>${esc(v.title)}</b><span>❤️ ${v.likes || 0} · 💬 ${(v.comments || []).length}</span></span>
+  </a>`;
+}
+function videosView() {
+  return viewHead("Videos", "ویڈیوز", "Gaon ki videos — dekhein, like karein, comment karein aur share karein.") +
+    (VIDS.length ? `<section class="section"><div class="vgrid">${VIDS.map(videoCard).join("")}</div></section>`
+      : `<section class="section"><div class="empty-note reveal">Abhi koi video nahi — pehli video jald aa rahi hai.</div></section>`);
+}
+function videoView(id) {
+  const v = VIDS.find(x => x.id === id);
+  if (!v) return `<section class="section"><div class="empty-note">Video nahi mili — <a href="#/videos" style="color:var(--green);font-weight:700">saari videos dekhein</a>.</div></section>`;
+  const liked = likedSet().has(v.id);
+  const player = v.type === "youtube"
+    ? `<iframe src="https://www.youtube-nocookie.com/embed/${esc(v.yt)}?rel=0" title="${esc(v.title)}" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`
+    : `<video src="${esc(v.url)}" controls playsinline preload="metadata"></video>`;
+  const comments = (v.comments || []).map(c => `
+    <div class="cmt"><b>${esc(c.name)}</b><span>${new Date(c.ts).toLocaleDateString("en-GB")}</span><p>${esc(c.text)}</p></div>`).join("");
+  return `<article class="post-wrap video-wrap">
+    <a class="back-link" href="#/videos">← Saari Videos / <span class="ur">تمام ویڈیوز</span></a>
+    <h1 class="post-title">${esc(v.title)}</h1>
+    <div class="player-wrap">${player}</div>
+    <div class="v-actions">
+      <button class="like-btn ${liked ? "on" : ""}" id="likeBtn" type="button">❤️ <span id="likeCount">${v.likes || 0}</span></button>
+      <button class="share-btn share-copy" id="shareVideoBtn" type="button">↗ Share</button>
+    </div>
+    <h2 class="cmt-head">Comments · <span class="ur">تبصرے</span> (${(v.comments || []).length})</h2>
+    <div id="cmtList">${comments || '<p class="cmt-none">Abhi koi comment nahi — pehla comment aap karein.</p>'}</div>
+    <form class="cmt-form" id="cmtForm">
+      <input type="text" id="cmtName" maxlength="40" placeholder="Aap ka naam" value="${esc(localStorage.getItem("tbka-name") || "")}">
+      <textarea id="cmtText" rows="3" maxlength="500" placeholder="Apna comment likhein…"></textarea>
+      <button class="btn-gold" type="submit">Comment Karein →</button>
+      <p class="cmt-msg" id="cmtMsg"></p>
+    </form>
+  </article>`;
+}
+function bindVideoView() {
+  const { name, arg } = currentRoute();
+  if (name !== "video" || !arg) return;
+  const v = VIDS.find(x => x.id === arg);
+  if (!v) return;
+  const shareBtn = document.getElementById("shareVideoBtn");
+  if (shareBtn) shareBtn.addEventListener("click", async () => {
+    if (navigator.share) { try { await navigator.share({ title: v.title, url: location.href }); } catch (e) { /* dismissed */ } }
+    else {
+      try { await navigator.clipboard.writeText(location.href); shareBtn.textContent = "Link Copy Ho Gaya ✓"; }
+      catch (e) { shareBtn.textContent = location.href; }
+    }
+  });
+  const likeBtn = document.getElementById("likeBtn");
+  if (likeBtn) likeBtn.addEventListener("click", async () => {
+    const set = likedSet();
+    const want = !set.has(v.id);
+    if (want) set.add(v.id); else set.delete(v.id);
+    saveLiked(set);
+    likeBtn.classList.toggle("on", want);
+    try {
+      const r = await fetch(API_BASE + "/api/videos", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "like", id: v.id, v: VID, liked: want })
+      });
+      const j = await r.json();
+      if (j.ok) { v.likes = j.likes; const lc = document.getElementById("likeCount"); if (lc) lc.textContent = j.likes; }
+    } catch (e) { /* optimistic UI stays */ }
+  });
+  const form = document.getElementById("cmtForm");
+  if (form) form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nm = document.getElementById("cmtName").value.trim();
+    const tx = document.getElementById("cmtText").value.trim();
+    const m = document.getElementById("cmtMsg");
+    if (nm.length < 2 || tx.length < 2) { m.textContent = "❌ Naam aur comment dono likhein"; return; }
+    localStorage.setItem("tbka-name", nm);
+    m.textContent = "⏳ Bhej raha hai…";
+    try {
+      const cid = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      const r = await fetch(API_BASE + "/api/videos", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "comment", id: v.id, name: nm, text: tx, v: VID, cid })
+      });
+      const j = await r.json();
+      if (j.ok) {
+        v.comments = v.comments || [];
+        v.comments.push(j.comment);
+        render();
+      } else m.textContent = "❌ " + (j.error || "Comment nahi laga");
+    } catch (err) { m.textContent = "❌ Server se rabta nahi ho saka"; }
+  });
+}
+async function loadVideos() {
+  try {
+    const r = await fetch(API_BASE + "/api/videos");
+    const j = await r.json();
+    if (j.ok && Array.isArray(j.videos)) {
+      VIDS = j.videos;
+      const n = currentRoute().name;
+      if (n === "home" || n === "videos" || n === "video") render();
+    }
+  } catch (e) { /* site works without videos */ }
+}
+
 const ROUTES = {
   home:    { nav: "home",    render: homeView },
   news:    { nav: "news",    render: () => listView("news", "Khabrein", "خبریں", "Tallu Broq ki taaza tareen khabrein.") },
@@ -254,6 +368,7 @@ const ROUTES = {
   kaam:    { nav: "kaam",    render: kaamView },
   sakafat: { nav: "sakafat", render: () => listView("sakafat", "Sakafat", "ثقافت", "Mele, riwayat, zaban aur hamari pehchan.") },
   gallery: { nav: "gallery", render: galleryView },
+  videos:  { nav: "videos",  render: videosView },
   elaan:   { nav: "elaan",   render: () => listView("elaan", "Elaan Board", "اعلان بورڈ", "Jirga ke faislay, meetings aur aham elanaat.") },
   rabta:   { nav: "rabta",   render: rabtaView },
   submit:  { nav: "",        render: submitView }
@@ -379,6 +494,7 @@ function render() {
   const { name, arg } = currentRoute();
   let html, nav = "";
   if (name === "post" && arg) { html = postView(arg); }
+  else if (name === "video" && arg) { html = videoView(arg); nav = "videos"; }
   else {
     const r = ROUTES[name] || ROUTES.home;
     html = r.render();
@@ -391,6 +507,7 @@ function render() {
   bindReveals();
   bindTilt();
   bindSubmitForm();
+  bindVideoView();
   const cp = document.getElementById("copyLinkBtn");
   if (cp) cp.addEventListener("click", async () => {
     try { await navigator.clipboard.writeText(location.href); cp.textContent = "Link Copy Ho Gaya ✓"; }
@@ -522,4 +639,5 @@ async function loadSettings() {
 window.addEventListener("hashchange", render);
 render();
 loadDynamic();
+loadVideos();
 loadSettings();

@@ -402,3 +402,32 @@ button{font-family:inherit;cursor:pointer}
   transition:.2s;background:rgba(255,255,255,.08);
 }
 .social-pill:hover{border-color:var(--gold);color:var(--gold-2);transform:translateY(-2px)}
+
+/* ---------- Videos ---------- */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.vcard{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;text-decoration:none;color:var(--ink);box-shadow:var(--shadow-soft);display:block;transition:transform .25s ease,box-shadow .25s ease}
+.vcard:hover{transform:translateY(-4px)}
+.vthumb{position:relative;display:block;aspect-ratio:16/9;background:#0a3d31;overflow:hidden}
+.vthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.vthumb-file{display:flex;align-items:center;justify-content:center;height:100%;font-size:2.6rem}
+.vplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(10,61,49,.82);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.15rem;border:2px solid rgba(255,255,255,.65)}
+.vmeta{display:block;padding:13px 15px}
+.vmeta b{display:block;font-size:.95rem;line-height:1.35;margin-bottom:5px}
+.vmeta span{font-size:.8rem;color:var(--muted)}
+.video-wrap{max-width:860px}
+.player-wrap{position:relative;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden;margin:14px 0}
+.player-wrap iframe,.player-wrap video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.v-actions{display:flex;gap:10px;align-items:center;margin:6px 0 8px}
+.like-btn{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:10px 20px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit;color:var(--ink)}
+.like-btn.on{background:#fdecec;border-color:#f0a3a3;color:#b3261e}
+.cmt-head{font-size:1.15rem;color:var(--green);margin:22px 0 8px}
+.cmt{border-bottom:1px dashed var(--line);padding:10px 2px}
+.cmt b{color:var(--ink)}
+.cmt span{color:var(--muted);font-size:.75rem;margin-left:8px}
+.cmt p{margin-top:3px;font-size:.93rem;line-height:1.55}
+.cmt-none{color:var(--muted);font-size:.9rem;padding:8px 0}
+.cmt-form{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.cmt-form input,.cmt-form textarea{padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:.95rem;background:#fff;width:100%}
+.cmt-form input:focus,.cmt-form textarea:focus{outline:none;border-color:var(--green)}
+.cmt-form .btn-gold{align-self:flex-start}
+.cmt-msg{font-size:.88rem;min-height:1.2em}
