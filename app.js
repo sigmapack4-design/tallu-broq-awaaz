@@ -218,7 +218,7 @@ function submitView() {
      <input id="fPhoto" type="file" accept="image/*">
      <img id="photoPrev" class="photo-prev" alt="" hidden>
      <button class="btn-gold" type="submit" id="submitBtn">Publish Karein →</button>
-     <p class="form-note">Submit karne par AI pehle post check karega — is mein 30 se 60 second lag sakte hain. Saaf post foran publish ho jayegi.</p>
+     <p class="form-note">Submit karne par AI pehle post check karega — aam tor par 5 se 15 second lagte hain. Saaf post foran publish ho jayegi.</p>
      <div id="submitResult"></div>
    </form>`;
 }
@@ -455,7 +455,7 @@ function bindSubmitForm() {
     };
     btn.disabled = true;
     btn.textContent = "AI check kar raha hai... ⏳";
-    box.innerHTML = `<div class="result-wait">🤖 AI aap ki post parh kar check kar raha hai — 30 se 60 second intezar karein, page band na karein.</div>`;
+    box.innerHTML = `<div class="result-wait">🤖 AI aap ki post parh kar check kar raha hai — chand second intezar karein, page band na karein.</div>`;
     try {
       const r = await fetch(API_BASE + "/api/submit", {
         method: "POST",
