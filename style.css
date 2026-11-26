@@ -436,3 +436,9 @@ button{font-family:inherit;cursor:pointer}
 .cmt-form input:focus,.cmt-form textarea:focus{outline:none;border-color:var(--green)}
 .cmt-form .btn-gold{align-self:flex-start}
 .cmt-msg{font-size:.88rem;min-height:1.2em}
+
+/* SEO intro (static H1 for crawlers) */
+.seo-intro{background:#f6f8ff;border-bottom:1px solid #e3e8f7;padding:26px 0 6px}
+.seo-intro .wrap-x{max-width:1100px;margin:0 auto;padding:0 18px}
+.seo-intro h1{font-size:21px;margin:0 0 6px}
+.seo-intro p{color:#5b6478;font-size:14px;max-width:860px}
