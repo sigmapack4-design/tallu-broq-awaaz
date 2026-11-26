@@ -1,0 +1,20 @@
+# Tallu Broq Ki Awaaz
+
+> Tallu Broq Ki Awaaz is the community portal of Tallu Broq village,
+> Gilgit-Baltistan, Pakistan — village news (khabrein), issues (masayil) with
+> status updates, achievements (kamyabi), a work directory (kaam kaaj),
+> culture (sakafat), gallery, videos and announcements, in English and Urdu.
+
+## Key facts
+
+- Website: https://sigmapack4-design.github.io/tallu-broq-awaaz/
+- Sitemap: https://sigmapack4-design.github.io/tallu-broq-awaaz/sitemap.xml
+- Anyone from the village can submit a post from the website; an AI moderator
+  reviews it and publishes it as a bilingual English + Urdu blog post.
+- Community announcements and selling posts are not accepted.
+
+## Main sections
+
+- News: https://sigmapack4-design.github.io/tallu-broq-awaaz/#/news
+- Masayil (village issues): https://sigmapack4-design.github.io/tallu-broq-awaaz/#/masayil
+- Videos: https://sigmapack4-design.github.io/tallu-broq-awaaz/#/videos
